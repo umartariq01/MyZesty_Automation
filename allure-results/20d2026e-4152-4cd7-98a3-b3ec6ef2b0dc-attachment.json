@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "//android.widget.Button[@content-desc=\"videoeditor\"]/android.view.ViewGroup/android.view.View | //android.view.ViewGroup[@content-desc=\"Create, Video\"]/android.view.ViewGroup/android.view.View"
+}

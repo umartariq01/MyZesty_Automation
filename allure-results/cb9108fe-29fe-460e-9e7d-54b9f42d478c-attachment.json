@@ -1,0 +1,37 @@
+{
+  "actions": [
+    {
+      "type": "pointer",
+      "id": "finger1",
+      "parameters": {
+        "pointerType": "touch"
+      },
+      "actions": [
+        {
+          "type": "pointerMove",
+          "duration": 1000,
+          "x": 480,
+          "y": 737
+        },
+        {
+          "type": "pointerDown",
+          "button": 0
+        },
+        {
+          "type": "pause",
+          "duration": 500
+        },
+        {
+          "type": "pointerMove",
+          "duration": 500,
+          "x": 265,
+          "y": 416
+        },
+        {
+          "type": "pointerUp",
+          "button": 0
+        }
+      ]
+    }
+  ]
+}

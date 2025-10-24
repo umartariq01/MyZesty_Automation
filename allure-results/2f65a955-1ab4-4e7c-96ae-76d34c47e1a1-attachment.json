@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "//android.widget.Toast[@text=\"Pick the color that best matches the area you want to replace\"]"
+}

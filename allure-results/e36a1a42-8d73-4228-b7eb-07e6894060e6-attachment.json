@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "//android.widget.GridView[@resource-id=\"com.myzesty:id/stickers_recycler\"]/android.widget.FrameLayout[2]/android.view.ViewGroup/android.widget.ImageView[1]"
+}

@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "/RelativeLayout/RelativeLayout[@android:id='@+id/header']/LinearLayout/ImageView[@android:id='@+id/select_font']"
+}

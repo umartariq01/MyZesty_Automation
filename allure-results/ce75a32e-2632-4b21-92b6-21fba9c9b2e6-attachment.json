@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "(//android.widget.ImageButton[@resource-id=\"com.myzesty:id/item_action\"])[1]"
+}

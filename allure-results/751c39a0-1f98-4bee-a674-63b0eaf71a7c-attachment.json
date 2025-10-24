@@ -1,0 +1,4 @@
+{
+  "using": "xpath",
+  "value": "(//android.widget.LinearLayout[@resource-id=\"com.myzesty:id/icon_area\"])[1]"
+}
