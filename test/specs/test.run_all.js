@@ -114,7 +114,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it.skip("Run Preset suite", async () => {
+  it("Run Preset suite", async () => {
     await import("../specs/test.audio.js");
   });
 

@@ -31,10 +31,11 @@
     "text": "wdio run ./wdio.conf.js --spec test.text.js",
     "text:monocart": "wdio run ./wdio.conf.js --spec test.text.js && node generate-monocart.js",
     "edit": "wdio run ./wdio.conf.js --spec test.edit.js",
-    "audio" : "wdio run ./wdio.conf.js --spec test.audio.js",
-    "keyframe" : "wdio run ./wdio.conf.js --spec test.keyframes.js",
-    "export" : "wdio run ./wdio.conf.js --spec test.export.js",
-    "testall" : "wdio run ./wdio.conf.js --spec test.run_all.js"
+    "audio": "wdio run ./wdio.conf.js --spec test.audio.js",
+    "keyframe": "wdio run ./wdio.conf.js --spec test.keyframes.js",
+    "export": "wdio run ./wdio.conf.js --spec test.export.js",
+    "testall": "wdio run ./wdio.conf.js --spec test.run_all.js",
+    "wizard": "wdio run ./wdio.conf.js --spec test.wizard.js"
   },
   "keywords": [],
   "author": "",
@@ -49,7 +50,7 @@
     "@wdio/spec-reporter": "^9.19.2",
     "@wdio/visual-service": "^9.0.0",
     "allure-commandline": "^2.34.1",
-    "appium": "^2.19.0",
+    "appium": "^3.1.0",
     "appium-uiautomator2-driver": "^4.2.9",
     "monocart-reporter": "^2.8.3"
   },
