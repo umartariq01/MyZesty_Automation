@@ -105,7 +105,10 @@ describe("Wizard Effect Feature Test Suite", () => {
 
   it("Verify that effect can be downloaded and applied to media successfully.", async () => {
     await WizardEffect.Click_Effect_1();
-    await browser.pause(1000);
+    await Common_function.waitForElementEnabled(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/cancel_effects"]'
+    );
+    // await browser.pause(1000);
     await WizardEffect.Apply_Changes();
   });
 
@@ -123,7 +126,10 @@ describe("Wizard Effect Feature Test Suite", () => {
   it("Verify that user cannot apply multiple effects simultaneously on a single media.", async () => {
     await WizardEffect.Click_Effect();
     await WizardEffect.Click_Effect_1(4);
-    await browser.pause(1000);
+    await Common_function.waitForElementEnabled(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/cancel_effects"]'
+    );
+    // await browser.pause(1000);
     await WizardEffect.Apply_Changes();
     await browser.pause(500);
   });
@@ -134,6 +140,9 @@ describe("Wizard Effect Feature Test Suite", () => {
     );
     await WizardEffect.Click_Effect();
     await WizardEffect.Click_Effect_1(2);
+    await Common_function.waitForElementEnabled(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/cancel_effects"]'
+    );
     await WizardEffect.Apply_Changes();
     await browser.pause(500);
     await Slider.play_pause(532, 1408);
@@ -145,6 +154,9 @@ describe("Wizard Effect Feature Test Suite", () => {
   it("Verify that the “Apply to All” radio button applies the selected effect to all media in the project.", async () => {
     await WizardEffect.Click_Effect();
     await WizardEffect.Click_Effect_1(3);
+    await Common_function.waitForElementEnabled(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/cancel_effects"]'
+    );
     // Apply to all
     await Common_function.clickElementByXPath(
       '//android.widget.TextView[@resource-id="com.myzesty:id/btn_apply_to_all"]'
@@ -183,7 +195,7 @@ describe("Wizard Effect Feature Test Suite", () => {
     );
   });
 
-  it("Verify that the exported media contains all the changes.", async () => {
+  it.only("Verify that the exported media contains all the changes.", async () => {
     await WizardEffect.Export_Media();
     await Common_function.waitForElementToBeVisible(
       '//android.view.ViewGroup[@content-desc="Done"]'

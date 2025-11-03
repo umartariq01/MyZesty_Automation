@@ -165,6 +165,7 @@ exports.config = {
   mochaOpts: {
     ui: "bdd",
     timeout: 80000,
+    retries: 0,
   },
 
   //
@@ -219,8 +220,13 @@ exports.config = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {object}         browser      instance of created browser/device session
    */
-  // before: function (capabilities, specs) {
-  // },
+  before: async function (capabilities, specs) {
+    await browser.setTimeout({
+      implicit: 0,
+      pageLoad: 60000,
+      script: 30000,
+    });
+  },
   /**
    * Runs before a WebdriverIO command gets executed.
    * @param {string} commandName hook command name

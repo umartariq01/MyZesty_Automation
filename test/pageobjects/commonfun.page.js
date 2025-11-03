@@ -452,6 +452,118 @@ class Common_function {
   }
 
   async validateCategories(
+    categories = ["Retro", "VHS", "Glitch", "Film", "Light", "Color", "Blur"]
+  ) {
+    console.log("🎬 Starting effect categories validation...");
+
+    const results = {
+      found: [],
+      notFound: [],
+      totalCategories: categories.length,
+    };
+
+    // Scroll coordinates for horizontal scrolling in effects panel
+    const scrollY = 1664; // Approximate Y position of categories
+    const maxScrollAttempts = 5; // Reduced since we're doing bidirectional
+
+    // Scroll configurations for both directions
+    const scrollConfigs = {
+      rightToLeft: { startX: 969, endX: 180 },
+      leftToRight: { startX: 180, endX: 969 },
+    };
+
+    for (const category of categories) {
+      console.log(`🔍 Searching for category: ${category}`);
+      let categoryFound = false;
+      const categoryXpath = `//android.widget.TextView[@text="${category}"]`;
+
+      // Check if category is visible initially (without scrolling)
+      try {
+        const categoryElement = await $(categoryXpath);
+        if (
+          (await categoryElement.isExisting()) &&
+          (await categoryElement.isDisplayed())
+        ) {
+          console.log(`✅ Found category: ${category} (initial position)`);
+          results.found.push(category);
+          categoryFound = true;
+
+          // Click on the category to verify it's interactive
+          await categoryElement.click();
+          await browser.pause(500);
+          console.log(`🎯 Successfully clicked on ${category} category`);
+          continue;
+        }
+      } catch (error) {
+        console.log(
+          `🔍 Category ${category} not in initial view, will scroll to find it`
+        );
+      }
+
+      // If not found initially, try scrolling in both directions
+      if (!categoryFound) {
+        // First try scrolling right to left using Slider function
+        categoryFound = await this.scrollAndSearchCategoryWithSlider(
+          category,
+          categoryXpath,
+          scrollConfigs.rightToLeft,
+          scrollY,
+          maxScrollAttempts,
+          "right-to-left"
+        );
+
+        // If still not found, reset position and try left to right
+        if (!categoryFound) {
+          console.log(
+            `🔄 Category ${category} not found scrolling right-to-left, trying left-to-right...`
+          );
+          await this.resetToBeginningUsingSlider();
+
+          categoryFound = await this.scrollAndSearchCategoryWithSlider(
+            category,
+            categoryXpath,
+            scrollConfigs.leftToRight,
+            scrollY,
+            maxScrollAttempts,
+            "left-to-right"
+          );
+        }
+
+        if (categoryFound) {
+          results.found.push(category);
+        } else {
+          console.log(
+            `❌ Category not found after bidirectional scrolling: ${category}`
+          );
+          results.notFound.push(category);
+        }
+      }
+
+      // Reset to beginning position for next category search
+      await this.resetToBeginningUsingSlider();
+    }
+
+    // Generate summary report
+    console.log("\n🎬 ===== EFFECT CATEGORIES VALIDATION REPORT =====");
+    console.log(`📊 Total Categories Tested: ${results.totalCategories}`);
+    console.log(`✅ Categories Found: ${results.found.length}`);
+    console.log(`❌ Categories Not Found: ${results.notFound.length}`);
+
+    if (results.found.length > 0) {
+      console.log(`✅ Found Categories: ${results.found.join(", ")}`);
+    }
+
+    if (results.notFound.length > 0) {
+      console.log(`❌ Missing Categories: ${results.notFound.join(", ")}`);
+    }
+
+    console.log("🎬 ===============================================\n");
+
+    return results;
+  }
+
+  // Helper function to scroll in a specific direction and search for category using Slider functions
+  async scrollAndSearchCategoryWithSlider(
     category,
     categoryXpath,
     scrollConfig,
@@ -537,6 +649,19 @@ class Common_function {
         timeoutMsg: `Element ${xpath} was not enabled within ${timeout}ms`,
       }
     );
+  }
+
+  async clickElementByXPath(xpath) {
+    const element = await $(xpath);
+
+    // wait until element is visible
+    await element.waitForDisplayed({
+      timeout: 15000,
+      timeoutMsg: `Element not visible: ${xpath}`,
+    });
+
+    await element.click();
+    console.log(`Clicked element: ${xpath}`);
   }
 }
 
