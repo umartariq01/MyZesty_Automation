@@ -327,20 +327,21 @@ class Common_function {
   }
 
   async waitForElementToBeVisibleCustom(xpath, timeout = 15000) {
-  const element = await $(xpath);
+    const element = await $(xpath);
 
-  await browser.waitUntil(
-    async () => {
-      return (await element.isExisting()) && (await element.isDisplayed());
-    },
-    {
-      timeout: timeout, // Use the passed timeout value
-      interval: 500,
-      timeoutMsg: `Element with XPath "${xpath}" did not become visible within ${timeout / 1000} seconds`,
-    }
-  );
-}
-
+    await browser.waitUntil(
+      async () => {
+        return (await element.isExisting()) && (await element.isDisplayed());
+      },
+      {
+        timeout: timeout, // Use the passed timeout value
+        interval: 500,
+        timeoutMsg: `Element with XPath "${xpath}" did not become visible within ${
+          timeout / 1000
+        } seconds`,
+      }
+    );
+  }
 
   async selectImages(count) {
     for (let i = 2; i <= count; i++) {
@@ -448,6 +449,94 @@ class Common_function {
         break;
       }
     }
+  }
+
+  async validateCategories(
+    category,
+    categoryXpath,
+    scrollConfig,
+    scrollY,
+    maxAttempts,
+    direction
+  ) {
+    let scrollAttempts = 0;
+
+    while (scrollAttempts < maxAttempts) {
+      try {
+        const categoryElement = await $(categoryXpath);
+
+        // Check if element exists and is displayed
+        if (
+          (await categoryElement.isExisting()) &&
+          (await categoryElement.isDisplayed())
+        ) {
+          console.log(
+            `✅ Found category: ${category} (after ${direction} scroll #${
+              scrollAttempts + 1
+            })`
+          );
+          // Click on the category to verify it's interactive
+          await categoryElement.click();
+          await browser.pause(500);
+          console.log(`🎯 Successfully clicked on ${category} category`);
+
+          return true;
+        }
+      } catch (error) {
+        console.log(
+          `❌ Category ${category} not visible during ${direction} scroll attempt ${
+            scrollAttempts + 1
+          }`
+        );
+      }
+      // Perform scroll if category not found and we haven't reached max attempts
+      if (scrollAttempts < maxAttempts - 1) {
+        // Use Slider's scrollScreenHorizontally function
+        await Slider.scrollScreenHorizontally(
+          scrollConfig.startX,
+          scrollConfig.endX,
+          scrollY,
+          800 // duration
+        );
+
+        await browser.pause(1000);
+        console.log(
+          `📱 Performed ${direction} scroll ${
+            scrollAttempts + 1
+          } for ${category} using Slider function`
+        );
+      }
+
+      scrollAttempts++;
+    }
+    return false;
+  }
+
+  // Helper function to scroll back to the beginning using Slider functions
+  async resetToBeginningUsingSlider() {
+    console.log("🔄 Scrolling back to beginning of categories using Slider...");
+
+    // Scroll left to right multiple times to ensure we're at the start
+    for (let i = 0; i < 3; i++) {
+      await Slider.scrollScreenHorizontally(200, 800, 1400, 800);
+      await browser.pause(500);
+    }
+
+    console.log("✅ Scrolled back to beginning using Slider");
+  }
+  // Function to wait for element to be enabled (helper function)
+  async waitForElementEnabled(xpath, timeout = 10000) {
+    const element = await $(xpath);
+    await browser.waitUntil(
+      async () => {
+        const isEnabled = await element.isEnabled();
+        return isEnabled;
+      },
+      {
+        timeout: timeout,
+        timeoutMsg: `Element ${xpath} was not enabled within ${timeout}ms`,
+      }
+    );
   }
 }
 

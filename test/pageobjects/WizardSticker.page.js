@@ -70,9 +70,13 @@ class WizardSticker {
       '//android.widget.LinearLayout[@resource-id="com.myzesty:id/sticker"]'
     );
   }
-  get sticker_panel()
-  {
-    return $('//android.widget.TextView[@resource-id="com.myzesty:id/title"]')
+  get sticker_panel() {
+    return $('//android.widget.TextView[@resource-id="com.myzesty:id/title"]');
+  }
+  get sticker_guide() {
+    return $(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/showGuide"]'
+    );
   }
 
   async Open_WizardEditor() {
@@ -135,6 +139,9 @@ class WizardSticker {
   }
   async Click_Sticker_Tab() {
     await this.sticker_tab.click();
+  }
+  async Click_Sticker_Guide() {
+    await this.sticker_guide.click();
   }
 }
 

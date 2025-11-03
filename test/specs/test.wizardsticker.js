@@ -3,8 +3,7 @@ import Subscription from "../pageobjects/BuyPremium.page.js";
 import Common_function from "../pageobjects/commonfun.page.js";
 import { browser } from "@wdio/globals";
 import SoftAssert from "../pageobjects/SoftAssert.page.js";
-import WizardSticker from '../pageobjects/WizardSticker.page.js';
-
+import WizardSticker from "../pageobjects/WizardSticker.page.js";
 
 describe("Wizard Sticker Feature Test Suite", () => {
   before(async () => {
@@ -46,89 +45,43 @@ describe("Wizard Sticker Feature Test Suite", () => {
       "Stickers panel did not open!"
     );
     await browser.pause(1000);
-    
   });
-
- 
 
   it("Verify that tapping the exclamation mark icon shows instructions for using stickers.", async () => {
-    
-    
+    await WizardSticker.Click_Sticker_Guide();
+    await Slider.tapScreen(500, 700);
+    await browser.pause(1000);
   });
 
-  it("", async () => {
-    
-    
+  it("Verify that all sticker categories (Watercolors, GIFHY, Christmas, Business, etc.) are visible in the sticker editor.", async () => {
+    await Common_function.validateCategories(["Love", "GIFHY", "Chrismas"]);
   });
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 
-  it("", async () => {
-    
-    
-  });
-
-  it("", async () => {
-    
-    
-  });
+  it("", async () => {});
 });

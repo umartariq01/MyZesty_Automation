@@ -35,7 +35,10 @@
     "keyframe": "wdio run ./wdio.conf.js --spec test.keyframes.js",
     "export": "wdio run ./wdio.conf.js --spec test.export.js",
     "testall": "wdio run ./wdio.conf.js --spec test.run_all.js",
-    "wizard": "wdio run ./wdio.conf.js --spec test.wizard.js"
+    "wizard": "wdio run ./wdio.conf.js --spec test.wizard.js",
+    "wizardeffect": "wdio run ./wdio.conf.js --spec test.wizardeffect.js",
+    "wizardpreset": "wdio run ./wdio.conf.js --spec test.wizardpreset.js",
+    "wizardsticker": "wdio run ./wdio.conf.js --spec test.wizardsticker.js"
   },
   "keywords": [],
   "author": "",
