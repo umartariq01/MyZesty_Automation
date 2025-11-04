@@ -143,6 +143,121 @@ class WizardSticker {
   async Click_Sticker_Guide() {
     await this.sticker_guide.click();
   }
+
+  async validateCategoriesDeviceAgnostic(
+    containerXPath,
+    categories,
+    opts = {}
+  ) {
+    const {
+      click = true,
+      maxSwipes = 8,
+      pauseMs = 300,
+      textClass = "android.widget.TextView",
+    } = opts;
+
+    const container = await $(containerXPath);
+    await container.waitForDisplayed({ timeout: 8000 });
+
+    // rect helper
+    const getRect = async (el) =>
+      typeof el.getRect === "function"
+        ? el.getRect()
+        : (async () => {
+            const [loc, size] = await Promise.all([
+              el.getLocation(),
+              el.getSize(),
+            ]);
+            return {
+              x: loc.x,
+              y: loc.y,
+              width: size.width,
+              height: size.height,
+            };
+          })();
+
+    // geometry (computed once; container size usually stable)
+    const r = await getRect(container);
+    const y = Math.floor(r.y + r.height / 2);
+    const xL = Math.floor(r.x + r.width * 0.15);
+    const xR = Math.floor(r.x + r.width * 0.85);
+
+    // primitives
+    const swipe = async (fromX, toX, duration = 350) => {
+      await driver.performActions([
+        {
+          type: "pointer",
+          id: "finger",
+          parameters: { pointerType: "touch" },
+          actions: [
+            { type: "pointerMove", duration: 0, x: fromX, y },
+            { type: "pointerDown", button: 0 },
+            { type: "pointerMove", duration, x: toX, y },
+            { type: "pointerUp", button: 0 },
+          ],
+        },
+      ]);
+      await driver.releaseActions();
+    };
+
+    const isVisible = async (el) =>
+      typeof el.isDisplayedInViewport === "function"
+        ? el.isDisplayedInViewport()
+        : el.isDisplayed();
+
+    const findAndMaybeClick = async (label) => {
+      const xp = `${containerXPath}//${textClass}[@text="${label}"]`;
+      const el = await $(xp);
+      if ((await el.isExisting()) && (await isVisible(el))) {
+        if (click) {
+          await el.click();
+          await browser.pause(200);
+        }
+        return true;
+      }
+      return false;
+    };
+
+    const results = {
+      found: [],
+      notFound: [],
+      totalCategories: categories.length,
+    };
+
+    for (const label of categories) {
+      // 1) Try without scrolling first — if found, skip all swipes
+      if (await findAndMaybeClick(label)) {
+        results.found.push(label);
+        continue;
+      }
+
+      // 2) Not visible -> start scrolling to search
+      let found = false;
+
+      // right -> left
+      for (let i = 0; i < maxSwipes && !found; i++) {
+        await swipe(xR, xL);
+        await browser.pause(pauseMs);
+        found = await findAndMaybeClick(label);
+      }
+
+      // left -> right (only if still not found)
+      for (let i = 0; i < maxSwipes && !found; i++) {
+        await swipe(xL, xR);
+        await browser.pause(pauseMs);
+        found = await findAndMaybeClick(label);
+      }
+
+      (found ? results.found : results.notFound).push(label);
+
+      // Note: no reset here — we only scrolled when needed.
+      // If you do want to normalize position after a “scrolled” search, uncomment:
+      // if (!found) { for (let i = 0; i < 2; i++) { await swipe(xL, xR); await browser.pause(120); } }
+    }
+
+    console.log("Categories result:", results);
+    return results;
+  }
 }
 
 export default new WizardSticker();

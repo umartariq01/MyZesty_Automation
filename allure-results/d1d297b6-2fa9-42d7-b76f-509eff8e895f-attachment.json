@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//android.widget.FrameLayout[@resource-id=\"com.myzesty:id/back\"]/android.widget.ImageView"
-}

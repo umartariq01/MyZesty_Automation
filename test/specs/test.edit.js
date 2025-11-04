@@ -50,14 +50,14 @@ describe("Edit Feature Test Suite", () => {
   it("Verify that on clicking Edit, increasing the media duration updates it to the maximum limit and reflects accurately on the timeline.", async () => {
     await Edit.Click_Edit_Tab();
     await Edit.Click_Media_Duration();
-    await Slider.Slider(driver, 41, 929, 1680, 1790, 0.2);
+    await Slider.Slider(41, 929, 1680, 1790, 0.2);
     await Edit.Click_Apply_Changes();
     await browser.pause(700);
   });
 
   it("Verify that on clicking Edit, decreasing the media duration updates it to the minimum limit and reflects accurately on the timeline.", async () => {
     await Edit.Click_Media_Duration();
-    await Slider.Slider(driver, 41, 929, 1680, 1790, 0);
+    await Slider.Slider(41, 929, 1680, 1790, 0);
     await Edit.Click_Apply_Changes();
     await browser.pause(700);
   });
@@ -72,7 +72,7 @@ describe("Edit Feature Test Suite", () => {
   it("Verify that on clicking Edit, the background of the image can be changed and scaled properly using the slider.", async () => {
     await Edit.Apply_BG();
     await Edit.Apply_BG_by_index(3);
-    await Slider.Slider(driver, 158, 929, 1873, 1923, 0.4);
+    await Slider.Slider(158, 929, 1873, 1923, 0.4);
     await Edit.Click_Apply_All();
     await Edit.Click_Apply_Changes();
     await browser.pause(500);
@@ -274,7 +274,7 @@ describe("Edit Feature Test Suite", () => {
 
   it("Verify lowering the volume decreases audio level during playback.", async () => {
     await Edit.Click_Volume();
-    await Slider.Slider(driver, 124, 929, 1687, 1797, 0.2);
+    await Slider.Slider(124, 929, 1687, 1797, 0.2);
     await Edit.Click_Apply_Changes();
     await Slider.play_pause(534, 1412);
     await browser.pause(3000);
@@ -283,7 +283,7 @@ describe("Edit Feature Test Suite", () => {
 
   it("Verify increasing the volume amplifies audio without distortion.", async () => {
     await Edit.Click_Volume();
-    await Slider.Slider(driver, 124, 929, 1687, 1797, 0.8);
+    await Slider.Slider(124, 929, 1687, 1797, 0.8);
     await Edit.Click_Apply_Changes();
     await Slider.play_pause(534, 1412);
     await browser.pause(3000);
@@ -292,7 +292,7 @@ describe("Edit Feature Test Suite", () => {
 
   it("Verify setting the volume to 0 mutes the video audio completely.", async () => {
     await Edit.Click_Volume();
-    await Slider.Slider(driver, 124, 929, 1687, 1797, 0);
+    await Slider.Slider(124, 929, 1687, 1797, 0);
     await Edit.Click_Apply_Changes();
     await Slider.play_pause(534, 1412);
     await browser.pause(3000);

@@ -1,5 +1,6 @@
 import { Browser } from "puppeteer";
 import { $, browser } from "@wdio/globals";
+import Slider from '../pageobjects/Slider.page.js';
 class Common_function {
   get premium() {
     return $('//android.widget.ImageView[@content-desc="Premium"]');

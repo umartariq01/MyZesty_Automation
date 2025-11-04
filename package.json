@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "wdio": "wdio run ./wdio.conf.js",
+    "clean:allure": "rm -rf allure-results allure-report",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
     "report:monocart": "node generate-monocart.js",

@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//android.widget.HorizontalScrollView[@resource-id=\"com.myzesty:id/tabs_layout\"]/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.LinearLayout/android.widget.ImageView"
-}

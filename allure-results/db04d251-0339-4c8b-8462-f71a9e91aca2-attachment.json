@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//android.widget.TextView[@resource-id=\"com.myzesty:id/tv_folder_name\" and @text=\"Automation\"]"
-}

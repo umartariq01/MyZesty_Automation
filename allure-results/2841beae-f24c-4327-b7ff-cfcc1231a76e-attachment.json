@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//android.view.ViewGroup[@resource-id=\"com.myzesty:id/range_slider\"]"
-}

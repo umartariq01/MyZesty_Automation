@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "(//android.widget.ImageView[@resource-id=\"com.myzesty:id/image\"])[4]"
-}

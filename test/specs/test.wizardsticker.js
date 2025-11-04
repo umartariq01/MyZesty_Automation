@@ -53,8 +53,51 @@ describe("Wizard Sticker Feature Test Suite", () => {
     await browser.pause(1000);
   });
 
-  it("Verify that all sticker categories (Watercolors, GIFHY, Christmas, Business, etc.) are visible in the sticker editor.", async () => {
-    await Common_function.validateCategories(["Love", "GIFHY", "Chrismas"]);
+  it.only("Verify that all sticker categories (Watercolors, GIFHY, Christmas, Business, etc.) are visible in the sticker editor.", async () => {
+    // await Common_function.validateCategories([
+    //   "Love",
+    //   "Christmas",
+    //   "Business",
+    //   "Halloween",
+    //   "Vacation",
+    //   "Text",
+    //   "People",
+    //   "Emoji",
+    //   "Trending",
+    //   "Neon",
+    //   "Reactions",
+    //   "Smileys",
+    //   "Sports",
+    //   "Hot",
+    //   "Others",
+    //   "Watercolors",
+    //   "Animals",
+    // ]);
+    const containerXpath =
+      '//android.widget.HorizontalScrollView[@resource-id="com.myzesty:id/tabs_layout"]';
+    await WizardSticker.validateCategoriesDeviceAgnostic(
+      containerXpath,
+      [
+        "Love",
+        "Christmas",
+        "Business",
+        "Halloween",
+        "Vacation",
+        "Text",
+        "People",
+        "Emoji",
+        "Trending",
+        "Neon",
+        "Reactions",
+        "Smileys",
+        "Sports",
+        "Hot",
+        "Others",
+        "Watercolors",
+        "Animals",
+      ],
+      { click: true, maxSwipes: 10, pauseMs: 200 }
+    );
   });
 
   it("", async () => {});

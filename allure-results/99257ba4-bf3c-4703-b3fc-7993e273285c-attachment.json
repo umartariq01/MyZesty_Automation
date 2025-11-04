@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//android.widget.Toast[@text=\"Split duration must be at least 2 seconds.\"]"
-}

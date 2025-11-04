@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//android.widget.Toast[@text=\"Can't delete the last clip.\"]"
-}
