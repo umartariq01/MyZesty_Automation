@@ -67,6 +67,7 @@ exports.config = {
     },
   ],
 
+  // Redmi Note 13 Pro
   //
   // ===================
   // Test Configurations

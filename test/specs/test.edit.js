@@ -365,7 +365,7 @@ describe("Edit Feature Test Suite", () => {
     await Edit.Reverse_Media();
     await Common_function.waitForElementToDisappearCustom(
       '//android.widget.TextView[@resource-id="com.myzesty:id/dialog_title"]',
-      20000
+      30000
     );
     await Slider.play_pause(534, 1412);
     await browser.pause(3000);

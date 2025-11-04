@@ -1,6 +1,6 @@
 import { Browser } from "puppeteer";
 import { $, browser } from "@wdio/globals";
-import Slider from '../pageobjects/Slider.page.js';
+import Slider from "../pageobjects/Slider.page.js";
 class Common_function {
   get premium() {
     return $('//android.widget.ImageView[@content-desc="Premium"]');
@@ -318,6 +318,21 @@ class Common_function {
     await browser.waitUntil(
       async () => {
         return (await element.isExisting()) && (await element.isDisplayed()); // Wait until the element is displayed
+      },
+      {
+        timeout: 15000, // Maximum wait time (15 seconds)
+        interval: 500,
+        timeoutMsg: `Element with XPath "${xpath}" did not become visible within 15 seconds`,
+      }
+    );
+  }
+
+  async waitForElementToBecomeEnable(xpath) {
+    const element = await $(xpath);
+
+    await browser.waitUntil(
+      async () => {
+        return (await element.isDisplayed()) && (await element.isEnabled()); // Wait until the element is displayed
       },
       {
         timeout: 15000, // Maximum wait time (15 seconds)

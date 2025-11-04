@@ -1,4 +1,5 @@
 import { $, browser } from "@wdio/globals";
+import Common_function from "../pageobjects/commonfun.page.js";
 
 class WizardSticker {
   get wizardEditor() {
@@ -63,7 +64,9 @@ class WizardSticker {
     );
   }
   get wizard_popup() {
-    return $('//android.widget.TextView[@text="Start Creating"]');
+    return $(
+      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/done"]'
+    );
   }
   get sticker_tab() {
     return $(
@@ -76,6 +79,29 @@ class WizardSticker {
   get sticker_guide() {
     return $(
       '//android.widget.ImageView[@resource-id="com.myzesty:id/showGuide"]'
+    );
+  }
+  get search() {
+    return $(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/search_icon"]'
+    );
+  }
+  get sticker_back() {
+    return $('//android.widget.ImageView[@resource-id="com.myzesty:id/back"]');
+  }
+  get applied_sticker() {
+    return $(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/animated_sticker"]'
+    );
+  }
+  get sticker_duration() {
+    return $(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/full_length_icon"]'
+    );
+  }
+  get duration_toast() {
+    return $(
+      '//android.widget.TextView[@resource-id="com.myzesty:id/wizardToolTip"]'
     );
   }
 
@@ -130,7 +156,7 @@ class WizardSticker {
     await $(selector).click();
   }
   async Verify_Wizard_PopUp() {
-    const isVisible = await this.wizard_popup.isExisting();
+    const isVisible = await this.wizard_popup.isDisplayed();
     if (isVisible) {
       await this.wizard_popup.click();
     } else {
@@ -249,14 +275,57 @@ class WizardSticker {
       }
 
       (found ? results.found : results.notFound).push(label);
-
-      // Note: no reset here — we only scrolled when needed.
-      // If you do want to normalize position after a “scrolled” search, uncomment:
-      // if (!found) { for (let i = 0; i < 2; i++) { await swipe(xL, xR); await browser.pause(120); } }
     }
 
     console.log("Categories result:", results);
     return results;
+  }
+  async Select_Sticker(xpath) {
+    const sticker = await $(xpath);
+
+    await sticker.waitForExist({ timeout: 8000 });
+
+    let isSelected = (await sticker.getAttribute("selected")) === "true";
+
+    if (isSelected) {
+      console.log("✅ Already downloaded → clicking directly");
+      await sticker.click();
+      return;
+    }
+    // not downloaded yet
+    console.log("⬇️ Not downloaded → click to download");
+    await sticker.click();
+    // wait until download completes (attribute becomes true)
+    await browser.waitUntil(
+      async () => {
+        return (await sticker.getAttribute("selected")) === "true";
+      },
+      {
+        timeout: 5000,
+        timeoutMsg: "❌ Sticker did not download within 20 seconds",
+      }
+    );
+
+    console.log("✅ Download finished → sticker is selected now");
+  }
+  async Search_Sticker() {
+    await this.search.click();
+    await Common_function.waitForElementToBeVisible(
+      '//android.widget.EditText[@resource-id="com.myzesty:id/search_sticker_et"]'
+    );
+  }
+  async Apply_Search_Sticker() {
+    const element = await $(
+      '//android.widget.TextView[@resource-id="com.myzesty:id/tag_name"]'
+    );
+    await element.waitForDisplayed();
+    await element.click();
+  }
+  async Go_Back() {
+    await this.sticker_back.click();
+  }
+  async Aplly_Sticker_Duration() {
+    await this.sticker_duration.click();
   }
 }
 

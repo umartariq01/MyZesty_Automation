@@ -35,14 +35,14 @@ describe("Export Feature Test Suite", () => {
   it("Verify that user can view and select resolution levels from 480p to 4K.", async () => {
     await Export.Open_Export_Panel();
     await browser.pause(500);
-    await Slider.Slider(driver, 54, 1037, 1382, 1437, 1);
+    await Slider.Slider(54, 1037, 1382, 1437, 1);
     await browser.pause(500);
   });
 
   let exportSizetext;
 
   it("Verify that user can change frame rates smoothly via slider.", async () => {
-    await Slider.Slider(driver, 54, 1037, 1720, 1775, 0.7);
+    await Slider.Slider(54, 1037, 1720, 1775, 0.7);
     await browser.pause(500);
     exportSizetext = await Export.export_size.getText();
     console.log("Captured Export Size:", exportSizetext);
@@ -50,7 +50,7 @@ describe("Export Feature Test Suite", () => {
 
   let newExportSize;
   it("Verify that user can select export quality from low to high.", async () => {
-    await Slider.Slider(driver, 54, 1037, 2058, 2113, 1);
+    await Slider.Slider(54, 1037, 2058, 2113, 1);
     await browser.pause(500);
     newExportSize = await Export.export_size.getText();
     console.log("Old Export size: ", exportSizetext);

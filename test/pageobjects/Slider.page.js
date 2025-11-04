@@ -150,7 +150,7 @@ class Slider {
           actions: [
             { type: "pointerMove", duration: 0, x: startX1, y: startY1 }, // Initial position of finger 1
             { type: "pointerDown" }, // Press finger 1
-            { type: "pause", duration: 0 }, // Pause for a short time
+            { type: "pause", duration: 150 }, // Pause for a short time
             { type: "pointerMove", duration: 500, x: endX1, y: endY1 }, // Move finger 1 outward
             { type: "pointerUp" }, // Release finger 1
           ],
@@ -162,7 +162,7 @@ class Slider {
           actions: [
             { type: "pointerMove", duration: 0, x: startX2, y: startY2 }, // Initial position of finger 2
             { type: "pointerDown" }, // Press finger 2
-            { type: "pause", duration: 0 }, // Pause for a short time
+            { type: "pause", duration: 150 }, // Pause for a short time
             { type: "pointerMove", duration: 500, x: endX2, y: endY2 }, // Move finger 2 outward
             { type: "pointerUp" }, // Release finger 2
           ],
@@ -170,6 +170,7 @@ class Slider {
       ]);
 
       // Optional: Pause briefly between repetitions
+      await browser.releaseActions();
       await browser.pause(500);
     }
 
@@ -619,7 +620,7 @@ class Slider {
         ],
       },
     ]);
-    // await browser.releaseActions();
+    await browser.releaseActions();
   }
 
   async Sound_slide(driver, startX, endX, startY, endY, desiredPercentage) {
