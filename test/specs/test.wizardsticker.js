@@ -124,11 +124,11 @@ describe("Wizard Sticker Feature Test Suite", () => {
   it("Verify that tapping a popular keyword in the sticker search automatically searches for related stickers.", async () => {
     await WizardSticker.Go_Back(); // Go to sticker main search panel
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.TextView[@resource-id="com.myzesty:id/tag_name" and @text="expression"] | //android.widget.ListView[@resource-id="com.myzesty:id/search_result_list"]/android.widget.RelativeLayout[1]'
+      '//android.widget.TextView[@resource-id="com.myzesty:id/tag_name" and @text="expression"]'
     );
     await Common_function.clickElementByXPath(
       // Select 1st category from the given list
-      '//android.widget.TextView[@resource-id="com.myzesty:id/tag_name" and @text="expression"] | //android.widget.ListView[@resource-id="com.myzesty:id/search_result_list"]/android.widget.RelativeLayout[1]'
+      '//android.widget.TextView[@resource-id="com.myzesty:id/tag_name" and @text="expression"]'
     );
     await browser.pause(3000);
     await Common_function.waitForElementToBeVisible(
@@ -200,19 +200,117 @@ describe("Wizard Sticker Feature Test Suite", () => {
     await browser.pause(1000);
   });
 
-  it.only("Verify that user can rotate the sticker using two-finger rotation gesture.", async () => {
-    await Slider.zoomin(419, 669, 660, 905, 361, 916, 727, 608);
+  it("Verify that tapping the cross icon on a sticker removes it from the media.", async () => {
+    await WizardSticker.Delete_Sticker();
+    await WizardSticker.Apply_Changes();
+    await browser.pause(1000);
   });
 
-  it("", async () => {});
+  it("Verify that multiple stickers can be added to the same media.", async () => {
+    await WizardSticker.Click_Sticker_Tab();
+    await Common_function.waitForElementToBeVisible(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/image"])[1]'
+    );
+    // Add 1st Sticker
+    await WizardSticker.Select_Sticker(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/image"])[1]'
+    );
+    await WizardSticker.Apply_Changes();
+    await browser.pause(1000);
+    // Add 2nd Sticker
+    await WizardSticker.Click_Sticker_Tab();
+    await Common_function.waitForElementToBeVisible(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/image"])[2]'
+    );
+    await WizardSticker.Select_Sticker(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/image"])[2]'
+    );
+    await WizardSticker.Apply_Changes();
+    await browser.pause(1000);
+    // Add 3rd Sticker
+    await WizardSticker.Click_Sticker_Tab();
+    await Common_function.clickElementByXPath(
+      // Click on Christmas category
+      '//android.widget.TextView[@text="Christmas"]'
+    );
+    await Common_function.waitForElementToBeVisible(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/animated_image"])[2]'
+    );
+    await WizardSticker.Select_Sticker(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/animated_image"])[2]'
+    );
+    await WizardSticker.Apply_Changes();
+    await browser.pause(1000);
+  });
 
-  it("", async () => {});
+  it("Verify that a sticker can be applied to only a specific media file when multiple are present.", async () => {
+    await WizardSticker.Click_Sticker_Tab();
+    await Common_function.clickElementByXPath(
+      //   Select the sticker
+      '(//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"])[3]'
+    );
+    await WizardSticker.Aplly_Sticker_Duration();
+    await WizardSticker.Apply_Changes();
+    await browser.pause(1000);
+    // Select 2nd nedia
+    await Common_function.clickElementByXPath(
+      '(//android.view.View[@resource-id="com.myzesty:id/selectedBg"])[2]'
+    );
+    await Common_function.clickElementByXPath(
+      //   Select the sticker
+      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"] | (//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"])[3]'
+    );
+    await WizardSticker.Aplly_Sticker_Duration();
+    await WizardSticker.Apply_Changes();
+    await browser.pause(500);
+    await Slider.Slider(18, 1062, 1477, 1527, 0.2);
+    await Slider.play_pause_xpath(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
+    );
+    await browser.pause(5000);
+  });
 
-  it("", async () => {});
+  it("Verify that sticker applied to a specific media remains intact when switching between other media.", async () => {
+    await Common_function.clickElementByXPath(
+      // Select first media
+      '(//android.view.View[@resource-id="com.myzesty:id/selectedBg"])[2]'
+    );
+    await Common_function.waitForElementEnabled(
+      // Verify of sticker is present and enabled
+      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"]'
+    );
+    await Common_function.clickElementByXPath(
+      // Select 3rd media to check if sticker is available or not
+      '(//android.view.View[@resource-id="com.myzesty:id/selectedBg"])[3]'
+    );
+    await Common_function.clickElementByXPath(
+      // Select first media
+      '(//android.view.View[@resource-id="com.myzesty:id/selectedBg"])[2]'
+    );
+    await browser.pause(1000);
+  });
 
-  it("", async () => {});
+  it("Verify that Saving project in draft retains the applied changes", async () => {
+    await WizardSticker.Click_Close_Project();
+    await browser.pause(700);
+    await WizardSticker.Open_Draft_Proj();
+    await Common_function.waitForElementToBeVisible(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
+    );
+  });
 
-  it("", async () => {});
+  it("Verify that performing Undo Redo retains the changes in same order.", async () => {
+    await Common_function.Undo_changes();
+    await browser.pause(1000);
+    await Common_function.Redo_changes();
+    await browser.pause(1000);
+  });
 
-  it("", async () => {});
+  it("Verify that export media contains all the applied changes.", async () => {
+    await WizardSticker.Export_Media();
+    await Common_function.waitForElementToBeVisible(
+      '//android.view.ViewGroup[@content-desc="Done"]'
+    );
+    // await WizardSticker.Export_Done_Btn();
+  });
 });

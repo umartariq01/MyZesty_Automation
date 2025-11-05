@@ -225,12 +225,12 @@ describe("Edit Feature Test Suite", () => {
     );
     await Edit.Click_Edit_Tab();
     await Edit.Trim_Media();
-    await Slider.Drag_Drop(driver, 77, 1806, 214, 1806);
+    await Slider.Drag_Drop(77, 1806, 214, 1806);
     await browser.pause(500);
   });
 
   it("Verify the right trim handler adjusts the video endpoint correctly.", async () => {
-    await Slider.Drag_Drop(driver, 1006, 1806, 896, 1806);
+    await Slider.Drag_Drop(1006, 1806, 896, 1806);
     await Edit.Click_Apply_Changes();
   });
 

@@ -1,5 +1,5 @@
 import Audio from "../pageobjects/Audio.page.js";
-import Sliders from "../pageobjects/sliders.page.js";
+import Slider from "../pageobjects/Slider.page.js";
 import Subscription from "../pageobjects/BuyPremium.page.js";
 import Common_function from "../pageobjects/commonfun.page.js";
 import { browser, expect } from "@wdio/globals";
@@ -29,7 +29,7 @@ describe("Audio Feature Test Suite", () => {
     await Audio.Click_Mute_Unmute();
     await Audio.Click_Add_Audio();
     await Audio.Click_VE_Add_Audio();
-    await Sliders.Music_tab_Click();
+    await Slider.Music_tab_Click();
   });
 
   it("Verify that the user can record custom audio and apply it to the video.", async () => {
@@ -39,7 +39,7 @@ describe("Audio Feature Test Suite", () => {
     await Audio.Click_Record();
     await Audio.Click_Start_Stop_Record();
     await browser.pause(5000);
-    await Sliders.play_pause(553, 2244);
+    await Slider.play_pause(553, 2244);
     await Audio.Click_Apply_Audio();
   });
 
@@ -55,19 +55,19 @@ describe("Audio Feature Test Suite", () => {
   });
 
   it("Verify that the user can expand or reduce the seek bar to adjust audio duration on the video timeline.", async () => {
-    await Sliders.dragSliderHandle(
+    await Slider.dragSliderHandle(
       '(//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"])[3]/android.view.View[2]',
       200
     );
     await browser.pause(600);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(3000);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(600);
   });
 
   it("Verify that fade-in and fade-out effects can be applied to the audio.", async () => {
-    await Sliders.scrollUntilElementIsVisible(
+    await Slider.scrollUntilElementIsVisible(
       '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Volume"]',
       890,
       2311,
@@ -75,23 +75,26 @@ describe("Audio Feature Test Suite", () => {
       2311
     );
     await Audio.Click_Volume_Tab();
-    await Sliders.Slider(driver, 124, 929, 1687, 1797, 0);
+    await Slider.Slider(124, 929, 1687, 1797, 0);
     await Audio.Click_Apply_Audio();
     await browser.pause(300);
-    await Sliders.tapScreen(630, 1762);
+    await Slider.tapScreen_Xpath(
+      '(//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"])[1]'
+    );
+    // await Slider.tapScreen(630, 1762);
     await Audio.Click_Fade_Tab();
-    await Sliders.Slider(driver, 276, 944, 1880, 1990, 0.5); // Fade In
-    await Sliders.Slider(driver, 276, 944, 1990, 2100, 0.4); // Fade Out
+    await Slider.Slider(276, 944, 1880, 1990, 0.5); // Fade In
+    await Slider.Slider(276, 944, 1990, 2100, 0.4); // Fade Out
     await Audio.Click_Apply_Audio();
-    await Sliders.scrollScreen(240, 1622, 700, 1622);
-    await Sliders.play_pause(534, 1412);
+    await Slider.scrollScreen(240, 1622, 700, 1622);
+    await Slider.play_pause(534, 1412);
     await browser.pause(5000);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(600);
   });
 
   it("Verify that the user can increase or decrease the volume up to 200%.", async () => {
-    await Sliders.scrollUntilElementIsVisible(
+    await Slider.scrollUntilElementIsVisible(
       '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Volume"]',
       890,
       2311,
@@ -99,23 +102,23 @@ describe("Audio Feature Test Suite", () => {
       2311
     );
     await Audio.Click_Volume_Tab();
-    await Sliders.Slider(driver, 124, 929, 1687, 1797, 1);
+    await Slider.Slider(124, 929, 1687, 1797, 1);
     await Audio.Click_Apply_Audio();
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(3000);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await Audio.Click_Volume_Tab();
-    await Sliders.Slider(driver, 124, 929, 1687, 1797, 0.3);
+    await Slider.Slider(124, 929, 1687, 1797, 0.3);
     await Audio.Click_Apply_Audio();
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(3000);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(400);
   });
 
   it("Verify that the user can replace the existing audio with a new one.", async () => {
-    await Sliders.scrollScreen(80, 1622, 950, 1622);
-    await Sliders.scrollUntilElementIsVisible(
+    await Slider.scrollScreen(80, 1622, 950, 1622);
+    await Slider.scrollUntilElementIsVisible(
       '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Replace"]',
       900,
       2315,
@@ -123,11 +126,11 @@ describe("Audio Feature Test Suite", () => {
       2315
     );
     await Audio.Replace_Audio();
-    await Sliders.Music_tab_Click();
+    await Slider.Music_tab_Click();
   });
 
   it("Verify that the user can trim the audio clip to adjust its duration.", async () => {
-    await Sliders.scrollUntilElementIsVisible(
+    await Slider.scrollUntilElementIsVisible(
       '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Trim"]',
       900,
       2323,
@@ -136,19 +139,22 @@ describe("Audio Feature Test Suite", () => {
     );
     await browser.pause(500);
     await Audio.Click_Trim_Tab();
-    await Sliders.dragSliderHandle(
+    await Slider.dragSliderHandle(
       '(//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"])[4]/android.view.View[2]',
       150
     );
-    // await Sliders.Drag_Drop(driver, 140, 1850, 320, 1850);
+    // await Slider.Drag_Drop(driver, 140, 1850, 320, 1850);
     await browser.pause(500);
     await Audio.Click_Apply_Audio();
     await browser.pause(500);
   });
 
   it("Verify that the user can delete an applied audio track from the video.", async () => {
-    await Sliders.tapScreen(943, 1931);
-    await Sliders.scrollUntilElementIsVisible(
+    // await Slider.tapScreen(943, 1931);
+    await Slider.tapScreen_Xpath(
+      '(//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"])[3]'
+    );
+    await Slider.scrollUntilElementIsVisible(
       '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Delete"]',
       925,
       2322,
@@ -161,13 +167,13 @@ describe("Audio Feature Test Suite", () => {
 
   it("Verify that the user can mute or unmute a audio track on the video.", async () => {
     await Audio.Click_Mute_Unmute();
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(5000);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(400);
   });
   it("Verify that the user can remove background noise using the denoise feature.", async () => {
-    await Sliders.Bidirection_scrollScreen(
+    await Slider.Bidirection_scrollScreen(
       '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Extract"]',
       990,
       2322,
@@ -178,7 +184,7 @@ describe("Audio Feature Test Suite", () => {
     await Audio.Click_Album();
     await Audio.Click_Automation_Album();
     await Audio.Select_Media_1(3);
-    await Sliders.scrollUntilElementIsVisible(
+    await Slider.scrollUntilElementIsVisible(
       '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="DeNoise"]',
       990,
       2315,
@@ -188,14 +194,15 @@ describe("Audio Feature Test Suite", () => {
     await Audio.Click_Denoise_Tab();
     await Audio.Click_Denoise_Now();
     await Audio.waitAndClickOrFallback(
-      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]', 
-      '//android.widget.ImageView[@resource-id="com.myzesty:id/img_close"]');
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]',
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/img_close"]'
+    );
     await browser.pause(600);
     await Audio.Click_Mute_Unmute();
     await browser.pause(100);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
     await browser.pause(5000);
-    await Sliders.play_pause(534, 1412);
+    await Slider.play_pause(534, 1412);
   });
 
   it("Verify the Export", async () => {

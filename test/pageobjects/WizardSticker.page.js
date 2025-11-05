@@ -104,6 +104,15 @@ class WizardSticker {
       '//android.widget.TextView[@resource-id="com.myzesty:id/wizardToolTip"]'
     );
   }
+  get delete_sticker() {
+    return $(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/delete_icon"]'
+    );
+  }
+  get play_pause()
+  {
+    return $('//android.widget.ImageView[@resource-id="com.myzesty:id/play"]')
+  }
 
   async Open_WizardEditor() {
     await this.wizardEditor.click();
@@ -327,6 +336,10 @@ class WizardSticker {
   async Aplly_Sticker_Duration() {
     await this.sticker_duration.click();
   }
+  async Delete_Sticker() {
+    await this.delete_sticker.click();
+  }
+
 }
 
 export default new WizardSticker();

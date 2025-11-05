@@ -42,7 +42,7 @@ describe("Overlay Feature Test Suite", () => {
 
   it("Verify that the overlay can be resized and the changes are accurately reflected in the preview.", async () => {
     await Overlay.Pinch();
-    await Slider.Drag_Drop(driver, 480, 737, 265, 416);
+    await Slider.Drag_Drop(480, 737, 265, 416);
   });
 
   it("Check that the overlay sub-bar can be extended and applied to other media clips.", async () => {
@@ -74,7 +74,7 @@ describe("Overlay Feature Test Suite", () => {
   it("Verify the functionality of the opacity feature and ensure the changes reflect correctly", async () => {
     await Slider.scrollScreen(317, 1622, 641, 1622);
     await Overlay.Click_Overlay_Opacity();
-    await Slider.Slider(driver, 41, 929, 1680, 1790, 0.8);
+    await Slider.Slider(41, 929, 1680, 1790, 0.8);
     SavedOpacityValue = await Overlay.Get_Opacity_Text();
     await Overlay.Click_Apply_Changes();
   });

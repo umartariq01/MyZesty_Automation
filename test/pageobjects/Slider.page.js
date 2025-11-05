@@ -1,6 +1,45 @@
 import { $, browser } from "@wdio/globals";
 
 class Slider {
+  async dragSliderHandle(sliderXpath, dragDistance) {
+    const slider = await $(sliderXpath);
+    await slider.waitForDisplayed({ timeout: 5000 });
+
+    const location = await slider.getLocation();
+    const size = await slider.getSize();
+
+    // Start from the center of the slider thumb
+    const startX = location.x + Math.floor(size.width / 2);
+    const y = location.y + Math.floor(size.height / 2);
+
+    // Define end X based on drag distance
+    let endX = startX + dragDistance;
+
+    // Optional boundary check to prevent dragging outside screen limits
+    const screenWidth = await driver.getWindowRect().then((rect) => rect.width);
+    if (endX < 0) endX = 0;
+    if (endX > screenWidth - 1) endX = screenWidth - 1;
+
+    console.log(`Dragging slider from (${startX}, ${y}) to (${endX}, ${y})`);
+
+    // Perform the drag action
+    await driver.performActions([
+      {
+        type: "pointer",
+        id: "finger1",
+        parameters: { pointerType: "touch" },
+        actions: [
+          { type: "pointerMove", duration: 0, x: startX, y },
+          { type: "pointerDown", button: 0 },
+          { type: "pause", duration: 200 },
+          { type: "pointerMove", duration: 400, x: endX, y },
+          { type: "pointerUp", button: 0 },
+        ],
+      },
+    ]);
+
+    console.log("Slider drag completed.");
+  }
   async Slider(startX, endX, startY, endY, desiredPercentage) {
     // Validate percentage is between 0 and 1
     if (desiredPercentage < 0 || desiredPercentage > 1) {
@@ -623,6 +662,92 @@ class Slider {
     await browser.releaseActions();
   }
 
+  async tapScreen_Xpath(xpath, { wait = 5000 } = {}) {
+    // find element
+    const el = await $(xpath);
+    await el.waitForDisplayed({ timeout: wait });
+
+    // get element location + size
+    const { x, y } = await el.getLocation();
+    const { width, height } = await el.getSize();
+
+    // calculate center point
+    const tapX = Math.round(x + width / 2);
+    const tapY = Math.round(y + height / 2);
+
+    // perform tap action
+    await browser.performActions([
+      {
+        type: "pointer",
+        id: "finger1",
+        parameters: { pointerType: "touch" },
+        actions: [
+          { type: "pointerMove", duration: 0, x: tapX, y: tapY },
+          { type: "pointerDown", button: 0 },
+          { type: "pointerUp", button: 0 },
+        ],
+      },
+    ]);
+
+    await browser.releaseActions();
+  }
+
+  async Bidirection_scrollScreen(
+    elementXpath,
+    startX,
+    startY,
+    endX,
+    endY,
+    duration = 800,
+    maxScrolls = 2
+  ) {
+    const element = await $(elementXpath);
+
+    // Function to perform one scroll action
+    async function performScroll(x1, y1, x2, y2) {
+      await driver.performActions([
+        {
+          type: "pointer",
+          id: "finger1",
+          parameters: { pointerType: "touch" },
+          actions: [
+            { type: "pointerMove", duration: 0, x: x1, y: y1 },
+            { type: "pointerDown", button: 0 },
+            { type: "pointerMove", duration, x: x2, y: y2 },
+            { type: "pointerUp", button: 0 },
+          ],
+        },
+      ]);
+      await driver.releaseActions();
+      await browser.pause(600);
+    }
+
+    console.log(`Searching for element: ${elementXpath}`);
+
+    // 🔽 First, scroll downward/rightward
+    for (let i = 0; i < maxScrolls; i++) {
+      if (await element.isDisplayed().catch(() => false)) {
+        console.log(`✅ Element found after ${i} scroll(s) down.`);
+        return;
+      }
+      console.log(`🔽 Scroll ${i + 1}/${maxScrolls} down...`);
+      await performScroll(startX, startY, endX, endY);
+    }
+
+    // 🔼 If not found, scroll in the opposite direction
+    console.log("Element not found. Scrolling in opposite direction...");
+    for (let i = 0; i < maxScrolls; i++) {
+      if (await element.isDisplayed().catch(() => false)) {
+        console.log(`✅ Element found after ${i} scroll(s) up.`);
+        return;
+      }
+      console.log(`🔼 Scroll ${i + 1}/${maxScrolls} up...`);
+      await performScroll(endX, endY, startX, startY);
+    }
+
+    console.warn(`❌ Element not found after ${maxScrolls * 2} scrolls.`);
+  }
+
   async Sound_slide(driver, startX, endX, startY, endY, desiredPercentage) {
     // Validate percentage is between 0 and 1
     if (desiredPercentage < 0 || desiredPercentage > 1) {
@@ -668,6 +793,38 @@ class Slider {
         ],
       },
     ]);
+  }
+
+  // Tap the center of an element found by XPath
+  async play_pause_xpath(xpath) {
+    const el = await $(xpath);
+    await el.waitForDisplayed({ timeout: 5000 });
+
+    // get element location + size
+    const { x, y } = await el.getLocation();
+    const { width, height } = await el.getSize();
+
+    // calculate center
+    const tapX = Math.round(x + width / 2);
+    const tapY = Math.round(y + height / 2);
+
+    await browser.performActions([
+      {
+        type: "pointer",
+        id: "finger1",
+        parameters: { pointerType: "touch" },
+        actions: [
+          { type: "pointerMove", duration: 0, x: tapX, y: tapY },
+          { type: "pointerDown", button: 0 },
+          { type: "pause", duration: 0 },
+          { type: "pointerUp", button: 0 },
+        ],
+      },
+    ]);
+
+    await browser.releaseActions();
+
+    return { tapX, tapY };
   }
 
   async Refresh_Page() {

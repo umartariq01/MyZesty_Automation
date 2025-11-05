@@ -42,8 +42,8 @@ describe("Text Feature Test Suite", () => {
 
   it("Verify that text color changes are applied properly.", async () => {
     await Text.Click_Color_Tab();
-    await Slider.Slider(driver, 36, 989, 1823, 1916, 0.6); // Color Slider
-    await Slider.Slider(driver, 196, 955, 1916, 2026, 0.8); // Opacity Slider
+    await Slider.Slider(36, 989, 1823, 1916, 0.6); // Color Slider
+    await Slider.Slider(196, 955, 1916, 2026, 0.8); // Opacity Slider
     await browser.pause(700);
   });
 
@@ -56,15 +56,15 @@ describe("Text Feature Test Suite", () => {
 
   it("Verify that stroke can be applied to the text and displays correctly.", async () => {
     await Text.Click_Stroke_Tab();
-    await Slider.Slider(driver, 133, 955, 1823, 1933, 0.5);
-    await Slider.Slider(driver, 36, 989, 2019, 2112, 0.4);
+    await Slider.Slider(133, 955, 1823, 1933, 0.5);
+    await Slider.Slider(36, 989, 2019, 2112, 0.4);
     await browser.pause(700);
   });
 
   it("Verify that the label (or tag) appears properly on the text.", async () => {
     await Text.Click_Label_Tab();
     await Text.Select_Label();
-    await Slider.Slider(driver, 36, 989, 1988, 2081, 0.4);
+    await Slider.Slider(36, 989, 1988, 2081, 0.4);
     await Text.Click_Apply_Changes();
     await browser.pause(500);
   });
