@@ -39,7 +39,8 @@
     "wizard": "wdio run ./wdio.conf.js --spec test.wizard.js",
     "wizardeffect": "wdio run ./wdio.conf.js --spec test.wizardeffect.js",
     "wizardpreset": "wdio run ./wdio.conf.js --spec test.wizardpreset.js",
-    "wizardsticker": "wdio run ./wdio.conf.js --spec test.wizardsticker.js"
+    "wizardsticker": "wdio run ./wdio.conf.js --spec test.wizardsticker.js",
+    "wizardtext": "wdio run ./wdio.conf.js --spec test.wizardtext.js"
   },
   "keywords": [],
   "author": "",
