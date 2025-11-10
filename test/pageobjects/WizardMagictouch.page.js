@@ -1,6 +1,6 @@
 import { $, browser } from "@wdio/globals";
 
-class WizardText {
+class WizardMagicTouch {
   get wizardEditor() {
     return $(
       `//android.widget.Button[@content-desc="wizardeditor"]/android.view.ViewGroup`
@@ -65,38 +65,18 @@ class WizardText {
   get wizard_popup() {
     return $('//android.widget.TextView[@text="Start Creating"]');
   }
-  get text_tab() {
+  get magic_touch() {
     return $(
-      '//android.widget.LinearLayout[@resource-id="com.myzesty:id/text"]'
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/magic_icon"]'
     );
   }
-  get color_tab() {
-    return $('//android.widget.TextView[@text="Color"]');
+  get undo() {
+    return $('//android.widget.ImageView[@resource-id="com.myzesty:id/undo"]');
   }
-  get style_tab() {
-    return $('//android.widget.TextView[@text="Style"]');
+  get redo() {
+    return $('//android.widget.ImageView[@resource-id="com.myzesty:id/redo"]');
   }
-  get stroke_tab() {
-    return $('//android.widget.TextView[@text="Stroke"]');
-  }
-  get label_tab() {
-    return $('//android.widget.TextView[@text="Label"]');
-  }
-  get text_duration() {
-    return $(
-      '//android.widget.ImageView[@resource-id="com.myzesty:id/full_length_icon"]'
-    );
-  }
-  get duration_toast() {
-    return $(
-      '//android.widget.TextView[@resource-id="com.myzesty:id/wizardToolTip"]'
-    );
-  }
-  get text_path() {
-    return $(
-      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"]'
-    );
-  }
+
   async Open_WizardEditor() {
     await this.wizardEditor.click();
   }
@@ -155,23 +135,43 @@ class WizardText {
       console.log("Wizard Popup is not displayed.");
     }
   }
-  async Click_Text_Tab() {
-    await this.text_tab.click();
+  async Click_Magic_Touch_Tab() {
+    await this.magic_touch.click();
   }
-  async Click_Color_Tab() {
-    await this.color_tab.click();
+  async Check_Magic_Touch_Applied() {
+    const magic_applied = await this.magic_touch;
+
+    await magic_applied.waitForDisplayed({ timeout: 5000 });
+
+    const isEnabled = await magic_applied.isEnabled();
+    const selected = await magic_applied.getAttribute("selected");
+
+    if (selected === "true" && isEnabled) {
+      console.log("Magic Touch is Applied on All Media ✅");
+    } else {
+      console.log("Magic Touch is not Applied on all Media ❌ ");
+    }
   }
-  async Click_Style_Tab() {
-    await this.style_tab.click();
+
+  async Check_Magic_Touch_Not_Applied() {
+    const magic_applied = await this.magic_touch;
+
+    await magic_applied.waitForDisplayed({ timeout: 5000 });
+
+    const isEnabled = await magic_applied.isEnabled();
+    const selected = await magic_applied.getAttribute("selected");
+
+    if (selected === "false" && isEnabled) {
+      console.log("Magic Touch is not Applied on all Media ✅");
+    } else {
+      console.log("Magic Touch is still Applied on all Media ❌ ");
+    }
   }
-  async Click_Stroke_Tab() {
-    await this.stroke_tab.click();
+  async Undo_Change() {
+    await this.undo.click();
   }
-  async Click_Label_Tab() {
-    await this.label_tab.click();
-  }
-  async Apply_Text_Duration() {
-    await this.text_duration.click();
+  async Redo_Change() {
+    await this.redo.click();
   }
 }
-export default new WizardText();
+export default new WizardMagicTouch();

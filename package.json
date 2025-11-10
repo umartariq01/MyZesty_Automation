@@ -40,7 +40,10 @@
     "wizardeffect": "wdio run ./wdio.conf.js --spec test.wizardeffect.js",
     "wizardpreset": "wdio run ./wdio.conf.js --spec test.wizardpreset.js",
     "wizardsticker": "wdio run ./wdio.conf.js --spec test.wizardsticker.js",
-    "wizardtext": "wdio run ./wdio.conf.js --spec test.wizardtext.js"
+    "wizardtext": "wdio run ./wdio.conf.js --spec test.wizardtext.js",
+    "wizardaudio": "wdio run ./wdio.conf.js --spec test.wizardaudio.js",
+    "wizardmagictouch": "wdio run ./wdio.conf.js --spec test.magictouch.js",
+    "wizardbg" : "wdio run ./wdio.conf.js --spec  test.wizardbg.js"
   },
   "keywords": [],
   "author": "",

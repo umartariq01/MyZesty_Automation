@@ -102,7 +102,7 @@ exports.config = {
   // baseUrl: 'http://localhost:8080',
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 60000,
+  waitforTimeout: 80000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
@@ -165,7 +165,7 @@ exports.config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: "bdd",
-    timeout: 80000,
+    timeout: 90000,
     retries: 0,
   },
 

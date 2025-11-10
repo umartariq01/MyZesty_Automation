@@ -502,7 +502,6 @@ class Common_function {
         ) {
           console.log(`✅ Found category: ${category} (initial position)`);
           results.found.push(category);
-          categoryFound = true;
 
           // Click on the category to verify it's interactive
           await categoryElement.click();

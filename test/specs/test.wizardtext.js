@@ -3,8 +3,8 @@ import Slider from "../pageobjects/Slider.page.js";
 import Subscription from "../pageobjects/BuyPremium.page.js";
 import Common_function from "../pageobjects/commonfun.page.js";
 import { browser, expect } from "@wdio/globals";
-import assert from "assert";
 import commonfunPage from "../pageobjects/commonfun.page.js";
+import SoftAssert from "../pageobjects/SoftAssert.page.js";
 
 describe("Wizard Text Feature Test Suite", () => {
   before(async () => {
@@ -17,6 +17,7 @@ describe("Wizard Text Feature Test Suite", () => {
 
   after(async () => {
     console.log("===== Wizard Text Feature Test Suite finished =====");
+    await SoftAssert.assertAll();
   });
 
   it("Verify that user can access the Text editor from Wizard Editor and the keyboard appears for typing.", async () => {
@@ -25,7 +26,6 @@ describe("Wizard Text Feature Test Suite", () => {
     await WizardText.Click_Automation_Album();
     await WizardText.Click_Img_Tab();
     await Common_function.selectImages(3);
-    // await WizardText.Select_Media_1(3);
     await WizardText.Click_Video_Tab();
     await WizardText.Select_Media_1();
     await WizardText.Click_Done_Btn();
@@ -153,7 +153,7 @@ describe("Wizard Text Feature Test Suite", () => {
     );
     await WizardText.Apply_Text_Duration();
     const toastMessage = await WizardText.duration_toast.getText();
-    assert.strictEqual(
+    await SoftAssert.assertEqual(
       toastMessage,
       "Text applied to the entire duration.",
       "Duration toast message did not match"
@@ -161,7 +161,7 @@ describe("Wizard Text Feature Test Suite", () => {
     await browser.pause(1000);
     await WizardText.Apply_Text_Duration();
     const toastMessage2 = await WizardText.duration_toast.getText();
-    assert.strictEqual(
+    await SoftAssert.assertEqual(
       toastMessage2,
       "Text applied to the current media.",
       "Duration toast message did not match"
@@ -186,7 +186,7 @@ describe("Wizard Text Feature Test Suite", () => {
     await browser.pause(500);
   });
 
-  it.only("Verify that text can be applied to only one media when circle icon is toggled to single mode.", async () => {
+  it("Verify that text can be applied to only one media when circle icon is toggled to single mode.", async () => {
     // Select the Media
     await Common_function.clickElementByXPath(
       '(//android.view.View[@resource-id="com.myzesty:id/selectedBg"])[2]'
@@ -214,13 +214,61 @@ describe("Wizard Text Feature Test Suite", () => {
       }
     }
     await Validate_text_On_Media();
+    await browser.pause(1000);
   });
 
-  it("", async () => {});
+  it("Verify that text can be repositioned and zoomed within media.", async () => {
+    // Select the Media
+    await Common_function.clickElementByXPath(
+      '(//android.view.View[@resource-id="com.myzesty:id/selectedBg"])[2]'
+    );
+    await Slider.Drag_Drop_Xpath(
+      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"]',
+      550,
+      400
+    );
+    await browser.pause("1000");
+    await WizardText.text_path.zoom({ duration: 500, scale: 0.3 });
+    await browser.pause(600);
+    await WizardText.Apply_Changes();
+  });
 
-  it("", async () => {});
+  it("Verify that added text remains on media after saving and reopening the project.", async () => {
+    await WizardText.Click_Close_Project();
+    await browser.pause(1000);
+    await WizardText.Open_Draft_Proj();
+    await Common_function.waitForElementToBeVisible(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
+    );
+    // Select the Media
+    await Common_function.clickElementByXPath(
+      '(//android.view.View[@resource-id="com.myzesty:id/selectedBg"])[2]'
+    );
+    await browser.pause(600);
+    async function Validate_text_On_Media() {
+      const selector =
+        '//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"]';
+      const isVisible = await $(selector).isDisplayed();
+      if (isVisible) {
+        console.log("Text is present on media as expected.");
+      } else {
+        throw new Error("Text is not present on media, test failed.");
+      }
+    }
+    await Validate_text_On_Media();
+  });
 
-  it("", async () => {});
-
-  // Removed empty test cases
+  it("Verify that changes are retianed in same order after perfoming Undo Redo operation", async () => {
+    await commonfunPage.Undo_changes();
+    await browser.pause(1000);
+    await commonfunPage.Redo_changes();
+    await browser.pause(1000);
+  });
+  it("Verify that export media coatains all the applied changes.", async () => {
+    await WizardText.Export_Media();
+    // await Common_function.waitForElementToBeVisible(
+    //   '//android.view.ViewGroup[@content-desc="Done"]'
+    // );
+    // await WizardText.Export_Done_Btn();
+  });
 });

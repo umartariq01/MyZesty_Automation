@@ -1,6 +1,5 @@
 import { $, browser } from "@wdio/globals";
-
-class WizardText {
+class Wizard_BG {
   get wizardEditor() {
     return $(
       `//android.widget.Button[@content-desc="wizardeditor"]/android.view.ViewGroup`
@@ -65,38 +64,28 @@ class WizardText {
   get wizard_popup() {
     return $('//android.widget.TextView[@text="Start Creating"]');
   }
-  get text_tab() {
+  get remove_bg() {
     return $(
-      '//android.widget.LinearLayout[@resource-id="com.myzesty:id/text"]'
+      '//android.widget.LinearLayout[@resource-id="com.myzesty:id/background"]'
     );
   }
-  get color_tab() {
-    return $('//android.widget.TextView[@text="Color"]');
+  get background_text() {
+    return $('//android.widget.TextView[@resource-id="com.myzesty:id/title"]');
   }
-  get style_tab() {
-    return $('//android.widget.TextView[@text="Style"]');
-  }
-  get stroke_tab() {
-    return $('//android.widget.TextView[@text="Stroke"]');
-  }
-  get label_tab() {
-    return $('//android.widget.TextView[@text="Label"]');
-  }
-  get text_duration() {
+  get none_bg_option() {
     return $(
-      '//android.widget.ImageView[@resource-id="com.myzesty:id/full_length_icon"]'
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/iv_canvas_background"])[1]'
     );
   }
-  get duration_toast() {
+  get bg_default_value() {
+    return $('//android.widget.TextView[@resource-id="com.myzesty:id/scale"]');
+  }
+  get apply_all() {
     return $(
-      '//android.widget.TextView[@resource-id="com.myzesty:id/wizardToolTip"]'
+      '//android.widget.TextView[@resource-id="com.myzesty:id/btnApplyToAll"]'
     );
   }
-  get text_path() {
-    return $(
-      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/container"]'
-    );
-  }
+
   async Open_WizardEditor() {
     await this.wizardEditor.click();
   }
@@ -155,23 +144,22 @@ class WizardText {
       console.log("Wizard Popup is not displayed.");
     }
   }
-  async Click_Text_Tab() {
-    await this.text_tab.click();
+  async Click_Remove_BG_Tab() {
+    await this.remove_bg.click();
   }
-  async Click_Color_Tab() {
-    await this.color_tab.click();
+
+  async clickByIndexRange(baseXpath, startIndex = 1, endIndex = 1) {
+    for (let i = startIndex; i <= endIndex; i++) {
+      const xp = `(${baseXpath})[${i}]`;
+      const el = await $(xp);
+      await el.waitForDisplayed({ timeout: 5000 });
+      await el.click();
+      await browser.pause(300); // small delay between clicks
+    }
   }
-  async Click_Style_Tab() {
-    await this.style_tab.click();
-  }
-  async Click_Stroke_Tab() {
-    await this.stroke_tab.click();
-  }
-  async Click_Label_Tab() {
-    await this.label_tab.click();
-  }
-  async Apply_Text_Duration() {
-    await this.text_duration.click();
+  async Apply_All() {
+    await this.apply_all.click();
   }
 }
-export default new WizardText();
+
+export default new Wizard_BG();
