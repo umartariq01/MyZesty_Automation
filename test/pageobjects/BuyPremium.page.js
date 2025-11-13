@@ -56,9 +56,13 @@ class Subscription {
       .waitForDisplayed({ timeout: 10000 })
       .catch(() => false);
     await this.subscripe_pkg.click();
-    await Common_function.waitForElementToBeVisible(
-      '//android.widget.Button[@content-desc="videoeditor"]/android.view.ViewGroup/android.view.View'
+    await Common_function.waitForElementToBeVisibleCustom(
+      '//android.widget.Button[@content-desc="videoeditor"]/android.view.ViewGroup/android.view.View',
+      30000
     );
+    // await Common_function.waitForElementToBeVisible(
+    //   '//android.widget.Button[@content-desc="videoeditor"]/android.view.ViewGroup/android.view.View'
+    // );
     // await browser.pause(4000);
 
     // const processing_visible = await  this.processing_text.isDisplayed();

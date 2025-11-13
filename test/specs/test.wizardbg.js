@@ -102,6 +102,7 @@ describe("Wizard Audio Feature Test Suite", () => {
   });
 
   it("Verify that user can select a photo from the gallery to set as background.", async () => {
+    await Wizard_BG.Click_Remove_BG_Tab();
     await Common_function.clickElementByXPath(
       // Add BG from library
       '(//android.widget.ImageView[@resource-id="com.myzesty:id/iv_canvas_background"])[3]'
@@ -125,12 +126,14 @@ describe("Wizard Audio Feature Test Suite", () => {
     await browser.pause(800);
   });
 
-  it('Verify that selecting "Apply to all video" applies current background settings to all media files in the project.', async () => {
+  it('Verify that selecting "Apply to all" applies current background settings to all media files in the project.', async () => {
     await Wizard_BG.Click_Advance_Add();
     await Wizard_BG.Click_Album();
     await Wizard_BG.Click_Automation_Album();
     await Wizard_BG.Click_Img_Tab();
     await Common_function.selectImages(4);
+    await Wizard_BG.Click_Video_Tab();
+    await Wizard_BG.Select_Media_1();
     await Wizard_BG.Click_Done_Btn();
     await Common_function.waitForElementToBeVisibleCustom(
       '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]',
@@ -147,19 +150,33 @@ describe("Wizard Audio Feature Test Suite", () => {
     await Slider.Slider(18, 1062, 1477, 1527, 0.8);
   });
 
-  it("", async () => {});
+  it("Verify that background settings remain intact when project is saved as draft and reopened.", async () => {
+    await Wizard_BG.Click_Close_Project();
+    await browser.pause(1000);
+    await Wizard_BG.Open_Draft_Proj();
+    await Common_function.waitForElementToBeVisibleCustom(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]',
+      30000
+    );
+    await Slider.Slider(18, 1062, 1477, 1527, 0.5);
+  });
 
-  it("", async () => {});
+  it("Verify that user can overwrite an existing background with a new one.", async () => {
+    await Wizard_BG.Click_Remove_BG_Tab();
+    await Common_function.clickElementByXPath(
+      // Add BG from library
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/color_bg"])[4]'
+    );
+    await Wizard_BG.Apply_All();
+    await Wizard_BG.Apply_Changes();
+    await browser.pause(700);
+  });
 
-  it("", async () => {});
-
-  it("", async () => {});
-
-  it("", async () => {});
-
-  it("", async () => {});
-
-  it("", async () => {});
-
-  it("", async () => {});
+  it.skip("Verify that applied background remains visible in exported output file.", async () => {
+    await Wizard_BG.Export_Media();
+    await Common_function.waitForElementToBeVisible(
+      '//android.view.ViewGroup[@content-desc="Done"]'
+    );
+    await Wizard_BG.Export_Done_Btn();
+  });
 });

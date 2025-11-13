@@ -21,6 +21,10 @@ describe("Wizard Text Feature Test Suite", () => {
   });
 
   it("Verify that user can access the Text editor from Wizard Editor and the keyboard appears for typing.", async () => {
+    await Slider.Bidirection_scrollScreen_FindElement(
+      '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.HorizontalScrollView[2]/android.view.ViewGroup/android.view.ViewGroup',
+      '//android.widget.Button[@content-desc="wizardeditor"]/android.view.ViewGroup'
+    );
     await WizardText.Open_WizardEditor();
     await WizardText.Click_Album();
     await WizardText.Click_Automation_Album();

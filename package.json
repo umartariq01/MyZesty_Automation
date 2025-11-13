@@ -43,7 +43,9 @@
     "wizardtext": "wdio run ./wdio.conf.js --spec test.wizardtext.js",
     "wizardaudio": "wdio run ./wdio.conf.js --spec test.wizardaudio.js",
     "wizardmagictouch": "wdio run ./wdio.conf.js --spec test.magictouch.js",
-    "wizardbg" : "wdio run ./wdio.conf.js --spec  test.wizardbg.js"
+    "wizardbg" : "wdio run ./wdio.conf.js --spec test.wizardbg.js",
+    "pebasic": "wdio run ./wdio.conf.js --spec test.photoeditorbasic.js",
+    "pecustom": "wdio run ./wdio.conf.js --spec test.pe_custom_preset_neon.js"
   },
   "keywords": [],
   "author": "",

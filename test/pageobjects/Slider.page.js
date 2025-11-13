@@ -792,6 +792,59 @@ class Slider {
     console.warn(`❌ Element not found after ${maxScrolls * 2} scrolls.`);
   }
 
+  async Bidirection_scrollScreen_FindElement(containerXpath, targetXpath, duration = 800, maxScrolls = 2) {
+    // get coordinates of container area
+    const container = await $(containerXpath);
+    await container.waitForDisplayed({ timeout: 5000 });
+  
+    const loc = await container.getLocation();
+    const size = await container.getSize();
+  
+    const xLeft  = Math.round(loc.x + 50);
+    const xRight = Math.round(loc.x + size.width - 50);
+    const yMid   = Math.round(loc.y + size.height / 2);
+  
+    // helper: swipe from x1->x2
+    async function swipe(x1, x2) {
+      await browser.performActions([{
+        type: "pointer", id: "finger1", parameters: { pointerType: "touch" },
+        actions: [
+          { type: "pointerMove", duration: 0, x: x1, y: yMid },
+          { type: "pointerDown", button: 0 },
+          { type: "pointerMove", duration, x: x2, y: yMid },
+          { type: "pointerUp", button: 0 },
+        ],
+      }]);
+      await browser.releaseActions();
+      await browser.pause(500);
+    }
+  
+    console.log(`Searching for target: ${targetXpath}`);
+  
+    // try forward swipes
+    for (let i = 0; i < maxScrolls; i++) {
+      if (await $(targetXpath).isDisplayed().catch(()=>false)) {
+        console.log(`✅ Found after ${i} forward scrolls`);
+        return true;
+      }
+      await swipe(xRight, xLeft); // right → left
+    }
+  
+    // try backward swipes
+    console.log("not found forward -> scrolling backward");
+    for (let i = 0; i < maxScrolls; i++) {
+      if (await $(targetXpath).isDisplayed().catch(()=>false)) {
+        console.log(`✅ Found after ${i} backward scrolls`);
+        return true;
+      }
+      await swipe(xLeft, xRight); // left → right
+    }
+  
+    console.warn(`❌ NOT found after ${maxScrolls*2} scrolls`);
+    return false;
+  }
+  
+
   async Sound_slide(driver, startX, endX, startY, endY, desiredPercentage) {
     // Validate percentage is between 0 and 1
     if (desiredPercentage < 0 || desiredPercentage > 1) {

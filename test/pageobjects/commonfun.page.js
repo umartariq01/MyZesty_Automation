@@ -427,13 +427,19 @@ class Common_function {
     console.log("✅ Element is enabled");
   }
 
-  async Apply_All_Effects(xpathBase, maxScrolls = 2, startIndex = 1) {
+  async Apply_All_Effects(
+    xpathBase,
+    maxScrolls = 2,
+    startIndex = 1,
+    timeout = 2000,
+    lastIndex
+  ) {
     let index = startIndex;
     let processCount = 0;
     let scrollCount = 0;
 
     // Set value of While == true if you want to check all effects available in the list
-    while (processCount < 6) {
+    while (processCount < lastIndex) {
       try {
         const fullXpath = `(${xpathBase})[${index}]`;
         const effect = await $(fullXpath);
@@ -445,14 +451,14 @@ class Common_function {
 
         console.log(`Clicking on effect ${index + scrollCount * 5}`);
         await effect.click();
-        await browser.pause(1500);
+        await browser.pause(timeout); // Wait for effect to apply
         index++;
         processCount++;
 
         if (index > 5) {
           if (scrollCount < maxScrolls) {
             scrollCount++;
-            await Sliders.scrollScreen(940, 1773, 107, 1773, 1500);
+            await Slider.scrollScreen(940, 1773, 107, 1773, 1500);
             await browser.pause(1000);
             index = 2; // Restart from 2 to avoid repeating first effect
           } else {

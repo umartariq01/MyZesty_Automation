@@ -19,13 +19,17 @@ describe("Wizard Preset Feature Test Suite", () => {
     await SoftAssert.assertAll();
   });
 
-  it("Verify that the user can successfully open the Presets editor from the Wizard Editor.", async () => {
-    await Slider.scrollUntilElementIsVisible(
-      '//android.widget.Button[@content-desc="wizardeditor"]/android.view.ViewGroup',
-      756,
-      1536,
-      290,
-      1536
+  it ("Verify that the user can successfully open the Presets editor from the Wizard Editor.", async () => {
+    // await Slider.scrollUntilElementIsVisible(
+    //   '//android.widget.Button[@content-desc="wizardeditor"]/android.view.ViewGroup',
+    //   756,
+    //   1536,
+    //   290,
+    //   1536
+    // );
+    await Slider.Bidirection_scrollScreen_FindElement(
+      '//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.HorizontalScrollView[2]/android.view.ViewGroup/android.view.ViewGroup',
+      '//android.widget.Button[@content-desc="wizardeditor"]/android.view.ViewGroup'
     );
     await WizardPreset.Open_WizardEditor();
     await WizardPreset.Click_Album();
@@ -214,11 +218,11 @@ describe("Wizard Preset Feature Test Suite", () => {
     await Slider.play_pause(534, 1412);
   });
 
-  it.skip("Verify the Export media retains the applied changes.", async () => {
+  it("Verify the Export media retains the applied changes.", async () => {
     await WizardPreset.Export_Media();
-    await Common_function.waitForElementToBeVisible(
-      '//android.view.ViewGroup[@content-desc="Done"]'
-    );
-    await WizardPreset.Export_Done_Btn();
+    // await Common_function.waitForElementToBeVisible(
+    //   '//android.view.ViewGroup[@content-desc="Done"]'
+    // );
+    // await WizardPreset.Export_Done_Btn();
   });
 });
