@@ -458,7 +458,14 @@ class Common_function {
         if (index > 5) {
           if (scrollCount < maxScrolls) {
             scrollCount++;
-            await Slider.scrollScreen(940, 1773, 107, 1773, 1500);
+            await Slider.scrollContainer_Xpath({
+              containerXpath:
+                '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.myzesty:id/filter_list"]',
+              direction: "RTL",
+              swipeDuration: 800,
+              repeats: 5,
+            });
+            // await Slider.scrollScreen(940, 1773, 107, 1773, 1500);
             await browser.pause(1000);
             index = 2; // Restart from 2 to avoid repeating first effect
           } else {
@@ -683,6 +690,139 @@ class Common_function {
 
     await element.click();
     console.log(`Clicked element: ${xpath}`);
+  }
+
+  /**
+   * Apply (click) all items in a horizontally scrolling list (e.g., Effects/Categories).
+   * - Works with any list: pass a base XPath that matches each cell/item.
+   * - Scrolls the given container after a configurable index threshold.
+   * - Stops when it either reaches lastIndex (if provided) or runs out of scrolls/items.
+   *
+   * Example item xpath: //android.widget.FrameLayout[@resource-id="com.myzesty:id/item_root"]
+   * Then we click (itemXpathBase)[1], (itemXpathBase)[2], ...
+   */
+  async Apply_All_Items({
+    itemXpathBase, // ✅ required: base xpath that matches *each* item
+    containerXpath, // ✅ required: scrollable container xpath
+    direction = "RTL", // "RTL" | "LTR"
+    startIndex = 1, // index to start clicking from
+    scrollAfterIndex = 5, // ⬅️ after this index, we will scroll
+    restartIndexAfterScroll = 2, // where to restart index after each scroll to avoid repeats
+    repeatsPerScroll = 4, // how many swipe repeats per scroll call
+    swipeDuration = 800, // swipe ms
+    maxScrolls = 3, // maximum scroll batches to attempt
+    timeoutBetweenClicks = 800, // pause after each click (ms)
+    lastIndex = Infinity, // optional hard limit on how many items to process
+  } = {}) {
+    if (!itemXpathBase) {
+      throw new Error("itemXpathBase is required.");
+    }
+    if (!containerXpath) {
+      throw new Error("containerXpath is required.");
+    }
+
+    let index = startIndex;
+    let processed = 0;
+    let scrolls = 0;
+
+    console.log("🎬 Starting Apply_All_Items...");
+
+    // Helper: build concrete xpath from base + index
+    const ix = (i) => `(${itemXpathBase})[${i}]`;
+
+    // Helper: click if exists/visible
+    const tryClick = async (xp) => {
+      try {
+        const el = await $(xp);
+        if (!(await el.isExisting())) return false;
+        // Optionally ensure visible; some UIs still allow click when off-viewport
+        if (typeof el.isDisplayedInViewport === "function") {
+          if (!(await el.isDisplayedInViewport())) return false;
+        } else if (!(await el.isDisplayed())) {
+          return false;
+        }
+        await el.click();
+        await browser.pause(timeoutBetweenClicks);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+
+    // Core loop: process until lastIndex or we can’t scroll anymore
+    while (processed < lastIndex) {
+      const currentXpath = ix(index);
+
+      // Try clicking current index
+      const clicked = await tryClick(currentXpath);
+      if (clicked) {
+        console.log(`✅ Clicked item #${index + scrolls * scrollAfterIndex}`);
+        processed++;
+        index++;
+
+        // If we haven’t yet reached the threshold (scrollAfterIndex), keep going
+        if (index <= scrollAfterIndex) {
+          continue;
+        }
+
+        // Otherwise we *can* scroll, but only if we still need to process more
+        if (processed >= lastIndex) break;
+
+        if (scrolls < maxScrolls) {
+          scrolls++;
+          console.log(
+            `➡️ Scrolling batch #${scrolls} (direction: ${direction})...`
+          );
+          await Slider.scrollContainer_Xpath({
+            containerXpath,
+            direction,
+            swipeDuration,
+            repeats: repeatsPerScroll,
+          });
+          await browser.pause(600);
+          index = restartIndexAfterScroll; // restart from your chosen index to avoid repeating the very first item
+          continue;
+        } else {
+          console.log("⛔ Reached max scroll batches. Stopping.");
+          break;
+        }
+      } else {
+        // If the current index isn’t clickable (doesn’t exist / not in viewport)
+        // decide whether we should scroll or we’re truly out of items.
+        if (index <= scrollAfterIndex) {
+          // Still within the first “page”: advance index to probe next slot.
+          index++;
+          // If we blow past the threshold without any click, we'll try to scroll below.
+          if (index <= scrollAfterIndex) continue;
+        }
+
+        // We are past the threshold or didn't find item → attempt a scroll (if allowed)
+        if (scrolls < maxScrolls) {
+          scrolls++;
+          console.log(
+            `🔄 Couldn’t click index ${index}. Scrolling batch #${scrolls}...`
+          );
+          await Slider.scrollContainer_Xpath({
+            containerXpath,
+            direction,
+            swipeDuration,
+            repeats: repeatsPerScroll,
+          });
+          await browser.pause(600);
+          index = restartIndexAfterScroll;
+          continue;
+        } else {
+          console.log(
+            `❌ No more items or max scrolls reached at index ${index}.`
+          );
+          break;
+        }
+      }
+    }
+
+    console.log(
+      `📊 Apply_All_Items finished. Processed: ${processed}, Scrolls: ${scrolls}`
+    );
   }
 }
 

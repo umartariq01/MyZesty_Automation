@@ -7,7 +7,7 @@ import commonfunPage from "../pageobjects/commonfun.page.js";
 import SoftAssert from "../pageobjects/SoftAssert.page.js";
 import Logger from "../pageobjects/Logs.page.js";
 
-describe("Wizard Audio Feature Test Suite", () => {
+describe("Photo Editor Basic Operation Test Suite", () => {
   before(async () => {
     console.log(
       "===== Running pre-checks before Wizard Audio Feature Tests ====="

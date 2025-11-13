@@ -184,6 +184,82 @@ class Slider {
     }
   }
 
+  async scrollContainer_Xpath({
+    containerXpath,
+    direction = "RTL",
+    swipeDuration = 800,
+    repeats = 1,
+    pad = 50,
+  } = {}) {
+    if (!containerXpath) throw new Error("containerXpath is required.");
+
+    // 1) Locate container and compute its geometry
+    const container = await $(containerXpath);
+    await container.waitForDisplayed({ timeout: 5000 });
+
+    const loc = await container.getLocation(); // { x, y }
+    const size = await container.getSize(); // { width, height }
+
+    // Safe insets so gestures aren’t rejected by system/back edges
+    const xLeft = Math.round(loc.x + pad);
+    const xRight = Math.round(loc.x + size.width - pad);
+    const yTop = Math.round(loc.y + pad);
+    const yBottom = Math.round(loc.y + size.height - pad);
+    const xMid = Math.round(loc.x + size.width / 2);
+    const yMid = Math.round(loc.y + size.height / 2);
+
+    // 2) Normalize direction aliases
+    const d = String(direction).toLowerCase();
+    const isRTL = d === "rtl" || d === "right-to-left";
+    const isLTR = d === "ltr" || d === "left-to-right";
+    const isUP = d === "up" || d === "bottom-to-top";
+    const isDOWN = d === "down" || d === "top-to-bottom";
+
+    if (!isRTL && !isLTR && !isUP && !isDOWN) {
+      throw new Error(
+        `Unsupported direction: ${direction}. Use LTR, RTL, UP, or DOWN.`
+      );
+    }
+
+    // 3) Swipe helper (generic XY → XY move)
+    async function swipe(x1, y1, x2, y2, duration = 800) {
+      await browser.performActions([
+        {
+          type: "pointer",
+          id: "finger1",
+          parameters: { pointerType: "touch" },
+          actions: [
+            { type: "pointerMove", duration: 0, x: x1, y: y1 },
+            { type: "pointerDown", button: 0 },
+            { type: "pointerMove", duration, x: x2, y: y2 },
+            { type: "pointerUp", button: 0 },
+          ],
+        },
+      ]);
+      await browser.releaseActions();
+    }
+
+    // 4) Perform the requested number of swipes inside the container
+    for (let i = 0; i < repeats; i++) {
+      if (isRTL) {
+        // Right → Left across vertical midline
+        await swipe(xRight, yMid, xLeft, yMid, swipeDuration);
+      } else if (isLTR) {
+        // Left → Right across vertical midline
+        await swipe(xLeft, yMid, xRight, yMid, swipeDuration);
+      } else if (isUP) {
+        // Bottom → Top along horizontal midline
+        await swipe(xMid, yBottom, xMid, yTop, swipeDuration);
+      } else if (isDOWN) {
+        // Top → Bottom along horizontal midline
+        await swipe(xMid, yTop, xMid, yBottom, swipeDuration);
+      }
+
+      // brief settle to let UI update (tweak as needed)
+      await browser.pause(300);
+    }
+  }
+
   // Horizental screeen sliding function
   async Single_slide(startX, endX, y, duration = 500) {
     await browser.performActions([
@@ -792,58 +868,74 @@ class Slider {
     console.warn(`❌ Element not found after ${maxScrolls * 2} scrolls.`);
   }
 
-  async Bidirection_scrollScreen_FindElement(containerXpath, targetXpath, duration = 800, maxScrolls = 2) {
+  async Bidirection_scrollScreen_FindElement(
+    containerXpath,
+    targetXpath,
+    duration = 800,
+    maxScrolls = 2
+  ) {
     // get coordinates of container area
     const container = await $(containerXpath);
     await container.waitForDisplayed({ timeout: 5000 });
-  
+
     const loc = await container.getLocation();
     const size = await container.getSize();
-  
-    const xLeft  = Math.round(loc.x + 50);
+
+    const xLeft = Math.round(loc.x + 50);
     const xRight = Math.round(loc.x + size.width - 50);
-    const yMid   = Math.round(loc.y + size.height / 2);
-  
+    const yMid = Math.round(loc.y + size.height / 2);
+
     // helper: swipe from x1->x2
     async function swipe(x1, x2) {
-      await browser.performActions([{
-        type: "pointer", id: "finger1", parameters: { pointerType: "touch" },
-        actions: [
-          { type: "pointerMove", duration: 0, x: x1, y: yMid },
-          { type: "pointerDown", button: 0 },
-          { type: "pointerMove", duration, x: x2, y: yMid },
-          { type: "pointerUp", button: 0 },
-        ],
-      }]);
+      await browser.performActions([
+        {
+          type: "pointer",
+          id: "finger1",
+          parameters: { pointerType: "touch" },
+          actions: [
+            { type: "pointerMove", duration: 0, x: x1, y: yMid },
+            { type: "pointerDown", button: 0 },
+            { type: "pointerMove", duration, x: x2, y: yMid },
+            { type: "pointerUp", button: 0 },
+          ],
+        },
+      ]);
       await browser.releaseActions();
       await browser.pause(500);
     }
-  
+
     console.log(`Searching for target: ${targetXpath}`);
-  
+
     // try forward swipes
     for (let i = 0; i < maxScrolls; i++) {
-      if (await $(targetXpath).isDisplayed().catch(()=>false)) {
+      if (
+        await $(targetXpath)
+          .isDisplayed()
+          .catch(() => false)
+      ) {
         console.log(`✅ Found after ${i} forward scrolls`);
         return true;
       }
       await swipe(xRight, xLeft); // right → left
     }
-  
+
     // try backward swipes
     console.log("not found forward -> scrolling backward");
     for (let i = 0; i < maxScrolls; i++) {
-      if (await $(targetXpath).isDisplayed().catch(()=>false)) {
+      if (
+        await $(targetXpath)
+          .isDisplayed()
+          .catch(() => false)
+      ) {
         console.log(`✅ Found after ${i} backward scrolls`);
         return true;
       }
       await swipe(xLeft, xRight); // left → right
     }
-  
-    console.warn(`❌ NOT found after ${maxScrolls*2} scrolls`);
+
+    console.warn(`❌ NOT found after ${maxScrolls * 2} scrolls`);
     return false;
   }
-  
 
   async Sound_slide(driver, startX, endX, startY, endY, desiredPercentage) {
     // Validate percentage is between 0 and 1
