@@ -252,7 +252,7 @@ class WizardAudio {
     if (isSelected === "false") {
       console.log("Preview is currently stopped. Starting playback...");
       await el.click(); // start playing
-      await browser.pause(4000); // wait 4 seconds
+      await browser.pause(3000); // wait 4 seconds
       await el.click(); // stop playback
       console.log("Preview playback stopped after 4 seconds.");
     } else {

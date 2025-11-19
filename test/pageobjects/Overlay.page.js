@@ -52,7 +52,7 @@ class Overlay {
     return $('//android.widget.TextView[@text="Export"]');
   }
   get export_done() {
-    return $('//android.view.ViewGroup[@content-desc="Done"]');
+    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
   }
   get album() {
     return $(
@@ -95,6 +95,11 @@ class Overlay {
   get delete_overlay() {
     return $(
       '(//android.widget.LinearLayout[@resource-id="com.myzesty:id/icon_area"])[5]'
+    );
+  }
+  get add_overlay() {
+    return $(
+      '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Add"]'
     );
   }
 
@@ -170,6 +175,9 @@ class Overlay {
   }
   async Select_Overlay_Video() {
     await this.overlay_video.click();
+  }
+  async Click_Add_Overlay() {
+    await this.add_overlay.click();
   }
 }
 

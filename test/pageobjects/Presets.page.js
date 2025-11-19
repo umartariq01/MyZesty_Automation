@@ -49,7 +49,7 @@ class Presets {
     );
   }
   get export_done() {
-    return $('//android.view.ViewGroup[@content-desc="Done"]');
+    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
   }
 
   get open_preset() {

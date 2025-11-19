@@ -33,6 +33,7 @@ describe("Overlay Feature Test Suite", () => {
       2322
     );
     await Overlay.Click_Overlay_Tab();
+    await Overlay.Click_Add_Overlay();
     await Overlay.Click_Album();
     await Overlay.Click_Automation_Album();
     await Overlay.Click_Img_Tab();
@@ -170,7 +171,7 @@ describe("Overlay Feature Test Suite", () => {
     await Overlay.Export_Media();
     await browser.pause(20000);
     await Common_function.waitForElementToBeVisible(
-      '//android.view.ViewGroup[@content-desc="Done"]'
+      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]'
     );
     await Overlay.Export_Done_Btn();
   });

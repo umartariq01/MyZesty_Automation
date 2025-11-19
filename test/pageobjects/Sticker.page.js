@@ -48,7 +48,7 @@ class Stickers {
     );
   }
   get export_done() {
-    return $('//android.view.ViewGroup[@content-desc="Done"]');
+    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
   }
   get album() {
     return $(
@@ -65,9 +65,7 @@ class Stickers {
     return $('//android.widget.TextView[@text="Add Sticker"]');
   }
   get christmas_category() {
-    return $(
-      '//android.widget.TextView[@text="Christmas"]'
-    );
+    return $('//android.widget.TextView[@text="Christmas"]');
   }
   get sticker1() {
     return $(
@@ -192,12 +190,12 @@ class Stickers {
   }
   async Select_Sticker1() {
     await this.sticker1.click();
-    
+
     // await browser.pause(2000);
   }
   async Select_Sticker2() {
     await this.sticker2.click();
-    
+
     // await browser.pause(2000);
   }
   async Apply_Changes() {
@@ -258,34 +256,36 @@ class Stickers {
       console.log("Done button not Visible.");
     }
   }
-async  selectStickerIfNotDownloaded(stickerXpath) {
+  async selectStickerIfNotDownloaded(stickerXpath) {
     const sticker = await $(stickerXpath);
 
     // Wait for element to appear
     await sticker.waitForDisplayed({ timeout: 10000 });
 
     // Get the 'selected' attribute
-    const isSelected = await sticker.getAttribute('selected');
+    const isSelected = await sticker.getAttribute("selected");
 
-    if (isSelected === 'true') {
-        console.log("✅ Sticker already downloaded/selected.");
+    if (isSelected === "true") {
+      console.log("✅ Sticker already downloaded/selected.");
     } else {
-        console.log("⬇️ Sticker not downloaded, selecting now...");
-        await sticker.click();
+      console.log("⬇️ Sticker not downloaded, selecting now...");
+      await sticker.click();
 
-        // Wait until it becomes selected
-        await driver.waitUntil(async () => {
-            const state = await sticker.getAttribute('selected');
-            return state === 'true';
-        }, {
-            timeout: 20000,
-            timeoutMsg: '❌ Sticker did not change to selected=true within 20s',
-        });
+      // Wait until it becomes selected
+      await driver.waitUntil(
+        async () => {
+          const state = await sticker.getAttribute("selected");
+          return state === "true";
+        },
+        {
+          timeout: 20000,
+          timeoutMsg: "❌ Sticker did not change to selected=true within 20s",
+        }
+      );
 
-        console.log("✅ Sticker successfully selected/downloaded.");
+      console.log("✅ Sticker successfully selected/downloaded.");
     }
-}
-
+  }
 }
 
 export default new Stickers();

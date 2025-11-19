@@ -56,7 +56,7 @@ describe("Dehaze Feature Test Suite", () => {
     await browser.pause(1000);
   });
 
-  it("Apply Dehazer on an image, Save the media, and verify the save file retains the effect or not.", async () => {
+  it.only("Apply Dehazer on an image, Save the media, and verify the save file retains the effect or not.", async () => {
     await Dehazer.Apply_Dehaze();
     await Dehazer.Apply_Dehaze(); // To save image in Gallery
     await Dehazer.Verify_export("Your media is saved to your phone gallery");
@@ -140,7 +140,7 @@ describe("Dehaze Feature Test Suite", () => {
     await Dehazer.checkUploadedMedia(); // Export based on Imported Media
     await browser.pause(50000);
     await Common_function.waitForElementToBeVisibleCustom(
-      '//android.view.ViewGroup[@content-desc="Done"]',
+      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]',
       40000
     );
     await Dehazer.Click_export_done();

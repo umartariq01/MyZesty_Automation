@@ -711,7 +711,7 @@ class Common_function {
     repeatsPerScroll = 4, // how many swipe repeats per scroll call
     swipeDuration = 800, // swipe ms
     maxScrolls = 3, // maximum scroll batches to attempt
-    timeoutBetweenClicks = 800, // pause after each click (ms)
+    timeoutBetweenClicks = 600, // pause after each click (ms)
     lastIndex = Infinity, // optional hard limit on how many items to process
   } = {}) {
     if (!itemXpathBase) {
@@ -779,7 +779,7 @@ class Common_function {
             swipeDuration,
             repeats: repeatsPerScroll,
           });
-          await browser.pause(600);
+          await browser.pause(300);
           index = restartIndexAfterScroll; // restart from your chosen index to avoid repeating the very first item
           continue;
         } else {
@@ -808,7 +808,7 @@ class Common_function {
             swipeDuration,
             repeats: repeatsPerScroll,
           });
-          await browser.pause(600);
+          await browser.pause(300);
           index = restartIndexAfterScroll;
           continue;
         } else {

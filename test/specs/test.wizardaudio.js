@@ -316,11 +316,11 @@ describe("Wizard Audio Feature Test Suite", () => {
 
   it("Confirm that exported video contains the applied audio and plays correctly.", async () => {
     await WizardAudio.Export_Media();
-    // await Common_function.waitForElementToBeVisibleCustom(
-    //   '//android.view.ViewGroup[@content-desc="Done"]',
-    //   60000
-    // );
-    // await WizardAudio.Export_Done_Btn();
-    // await browser.pause(1000);
+    await Common_function.waitForElementToBeVisibleCustom(
+      '//android.view.ViewGroup[@content-desc="Done"]',
+      60000
+    );
+    await WizardAudio.Export_Done_Btn();
+    await browser.pause(1000);
   });
 });

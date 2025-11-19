@@ -83,7 +83,7 @@ describe("Audio Feature Test Suite", () => {
     await Keyframes.Toolbar_Back();
     await Keyframes.Export_Media();
     await Common_function.waitForElementToBeVisible(
-      '//android.view.ViewGroup[@content-desc="Done"]'
+      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]'
     );
     await Keyframes.Export_Done_Btn();
   });

@@ -51,7 +51,7 @@ class Dehazer {
     );
   }
   get export_done() {
-    return $('//android.view.ViewGroup[@content-desc="Done"]');
+    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
   }
   get apply_dehazerr() {
     return $('//android.widget.ImageView[@resource-id="com.myzesty:id/done"]');

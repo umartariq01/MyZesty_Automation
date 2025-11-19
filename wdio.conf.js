@@ -225,7 +225,7 @@ exports.config = {
     await browser.setTimeout({
       implicit: 0,
       pageLoad: 60000,
-      script: 30000,
+      // script: 30000,
     });
   },
   /**

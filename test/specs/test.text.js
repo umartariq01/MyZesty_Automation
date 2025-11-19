@@ -29,7 +29,7 @@ describe("Text Feature Test Suite", () => {
     await Text.Click_Add_Text();
     await Text.VE_Add_Text();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
     );
     await Text.Enter_Text();
     await Text.Click_Apply_Changes();
@@ -120,7 +120,7 @@ describe("Text Feature Test Suite", () => {
   it("Verify that the text and its applied styles are retained correctly in the exported output.", async () => {
     await Text.Export_Media();
     await Common_function.waitForElementToBeVisible(
-      '//android.view.ViewGroup[@content-desc="Done"]'
+      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]'
     );
     await Text.Export_Done_Btn();
   });

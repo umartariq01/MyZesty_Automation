@@ -45,7 +45,7 @@ class Text {
     );
   }
   get export_done() {
-    return $('//android.view.ViewGroup[@content-desc="Done"]');
+    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
   }
   get album() {
     return $(
@@ -68,7 +68,7 @@ class Text {
   }
   get text_area() {
     return $(
-      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
     );
   }
   get apply_changes() {

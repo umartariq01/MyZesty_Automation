@@ -7,28 +7,28 @@
     "clean:allure": "rm -rf allure-results allure-report",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
-    "report:monocart": "node generate-monocart.js",
-    "wdio:monocart": "wdio run ./wdio.conf.js && node generate-monocart.js",
+    
+    
     "freeze": "wdio run ./wdio.conf.js --spec test.freeze.js",
-    "freeze:monocart": "wdio run ./wdio.conf.js --spec test.freeze.js && node generate-monocart.js",
+    
     "sort": "wdio run ./wdio.conf.js --spec test.sort.js",
-    "sort:monocart": "wdio run ./wdio.conf.js --spec test.sort.js && node generate-monocart.js",
+   
     "effect": "wdio run ./wdio.conf.js --spec test.effects.js",
-    "effect:monocart": "wdio run ./wdio.conf.js --spec test.effects.js && node generate-monocart.js",
+   
     "dehazer": "wdio run ./wdio.conf.js --spec test.dehazer.js",
-    "dehazer:monocart": "wdio run ./wdio.conf.js --spec test.dehazer.js && node generate-monocart.js",
+    
     "preset": "wdio run ./wdio.conf.js --spec test.preset.js",
-    "preset:monocart": "wdio run ./wdio.conf.js --spec test.preset.js && node generate-monocart.js",
+    
     "sticker": "wdio run ./wdio.conf.js --spec test.sticker.js",
-    "sticker:monocart": "wdio run ./wdio.conf.js --spec test.sticker.js && node generate-monocart.js",
+   
     "tune": "wdio run ./wdio.conf.js --spec test.tune.js",
-    "tune:monocart": "wdio run ./wdio.conf.js --spec test.tune.js && node generate-monocart.js",
+    
     "overlay": "wdio run ./wdio.conf.js --spec test.overlay.js",
-    "overlay:monocart": "wdio run ./wdio.conf.js --spec test.overlay.js && node generate-monocart.js",
+    
     "chroma": "wdio run ./wdio.conf.js --spec test.chroma.js",
-    "chroma:monocart": "wdio run ./wdio.conf.js --spec test.chroma.js && node generate-monocart.js",
+   
     "canvas": "wdio run ./wdio.conf.js --spec test.canvas.js",
-    "canvas:monocart": "wdio run ./wdio.conf.js --spec test.canvas.js && node generate-monocart.js",
+    
     "text": "wdio run ./wdio.conf.js --spec test.text.js",
     "text:monocart": "wdio run ./wdio.conf.js --spec test.text.js && node generate-monocart.js",
     "edit": "wdio run ./wdio.conf.js --spec test.edit.js",
@@ -45,7 +45,8 @@
     "wizardmagictouch": "wdio run ./wdio.conf.js --spec test.magictouch.js",
     "wizardbg" : "wdio run ./wdio.conf.js --spec test.wizardbg.js",
     "pebasic": "wdio run ./wdio.conf.js --spec test.photoeditorbasic.js",
-    "pecustom": "wdio run ./wdio.conf.js --spec test.pe_custom_preset_neon.js"
+    "pecustom": "wdio run ./wdio.conf.js --spec test.pe_custom_preset_neon.js",
+    "petune": "wdio run ./wdio.conf.js --spec test.pe_tune_vintage_fisheye.js"
   },
   "keywords": [],
   "author": "",

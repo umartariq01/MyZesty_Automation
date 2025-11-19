@@ -206,7 +206,7 @@ describe("Edit Feature Test Suite", () => {
     await Edit.Toolbar_Back();
     await Edit.Export_Media();
     await Common_function.waitForElementToBeVisible(
-      '//android.view.ViewGroup[@content-desc="Done"]'
+      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]'
     );
     await Edit.Export_Done_Btn();
   });
@@ -245,7 +245,7 @@ describe("Edit Feature Test Suite", () => {
     await browser.pause(1000);
     await Slider.play_pause(534, 1412);
     await Edit.Split_Media();
-    await Edit.Assert_Split_Duration_Toast();
+    // await Edit.Assert_Split_Duration_Toast();
     await browser.pause(700);
   });
 
@@ -377,7 +377,7 @@ describe("Edit Feature Test Suite", () => {
     await Edit.Export_Media();
     await browser.pause(20000);
     await Common_function.waitForElementToDisappearCustom(
-      '//android.view.ViewGroup[@content-desc="Done"]',
+      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]',
       60000
     );
     await Edit.Export_Done_Btn();

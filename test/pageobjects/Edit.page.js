@@ -49,7 +49,7 @@ class Edit {
     );
   }
   get export_done() {
-    return $('//android.view.ViewGroup[@content-desc="Done"]');
+    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
   }
   get album() {
     return $(
@@ -148,7 +148,7 @@ class Edit {
   }
   get split_toast() {
     return $(
-      '//android.widget.Toast[@text="Split duration must be at least 2 seconds."]'
+      '//android.widget.Toast[@text="Split duration must be at least 1 seconds."]'
     );
   }
   get volume() {
