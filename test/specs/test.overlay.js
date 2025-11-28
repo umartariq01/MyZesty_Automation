@@ -4,7 +4,6 @@ import Subscription from "../pageobjects/BuyPremium.page.js";
 import Common_function from "../pageobjects/commonfun.page.js";
 import { browser, expect } from "@wdio/globals";
 import assert from "assert";
-import { ADDRGETNETWORKPARAMS } from "dns";
 
 describe("Overlay Feature Test Suite", () => {
   before(async () => {
@@ -33,7 +32,7 @@ describe("Overlay Feature Test Suite", () => {
       2322
     );
     await Overlay.Click_Overlay_Tab();
-    await Overlay.Click_Add_Overlay();
+    // await Overlay.Click_Add_Overlay();
     await Overlay.Click_Album();
     await Overlay.Click_Automation_Album();
     await Overlay.Click_Img_Tab();
@@ -63,12 +62,16 @@ describe("Overlay Feature Test Suite", () => {
       2322
     );
     await Overlay.Click_Overlay_Tab();
+    await Overlay.addPixelsToElementXAndClick(
+      '//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"]/android.view.View',
+      50
+    );
     await Slider.Extender(
       driver,
       '//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"]/android.view.View[3]',
       400
     );
-    await browser.pause(600);
+    await browser.pause(900);
   });
 
   let SavedOpacityValue;
@@ -94,6 +97,10 @@ describe("Overlay Feature Test Suite", () => {
       2322
     );
     await Overlay.Click_Overlay_Tab();
+    await Overlay.addPixelsToElementXAndClick(
+      '//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"]/android.view.View',
+      50
+    );
     await Overlay.Click_Overlay_Opacity();
     const NewOpacityValue = await Overlay.Get_Opacity_Text();
     assert.strictEqual(
@@ -128,6 +135,7 @@ describe("Overlay Feature Test Suite", () => {
       2322
     );
     await Overlay.Click_Overlay_Tab();
+    // await Overlay.Click_Add_Overlay();
     await Overlay.Click_Album();
     await Overlay.Click_Automation_Album();
     await Overlay.Click_Video_Tab();
@@ -171,7 +179,7 @@ describe("Overlay Feature Test Suite", () => {
     await Overlay.Export_Media();
     await browser.pause(20000);
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]'
+      '//android.view.ViewGroup[@content-desc="Done"]'
     );
     await Overlay.Export_Done_Btn();
   });

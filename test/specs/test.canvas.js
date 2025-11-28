@@ -132,7 +132,7 @@ describe("Canvas Feature Test Suite", () => {
     await browser.pause(500);
     await Canvas.Export_Media();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]',
+      '//android.view.ViewGroup[@content-desc="Done"]',
       60000
     );
     await Canvas.Export_Done_Btn();

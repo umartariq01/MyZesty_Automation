@@ -38,11 +38,11 @@ describe("Wizard Text Feature Test Suite", () => {
     );
     await WizardText.Click_Text_Tab();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
     );
     await Common_function.clickElementByXPath(
       // Click on text area to bring up keyboard
-      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
     );
     await browser.keys("Script Running");
     await WizardText.Apply_Changes();
@@ -122,7 +122,7 @@ describe("Wizard Text Feature Test Suite", () => {
   it("Verify that tapping the close (X) icon discards entered text.", async () => {
     await WizardText.Click_Text_Tab();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
     );
     await browser.keys("Test Script");
     // Discard the entered text
@@ -133,7 +133,7 @@ describe("Wizard Text Feature Test Suite", () => {
   it("Verify that tapping the cross icon on text removes it from media.", async () => {
     await WizardText.Click_Text_Tab();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
     );
     await browser.keys("Check text removal");
     await WizardText.Apply_Changes();

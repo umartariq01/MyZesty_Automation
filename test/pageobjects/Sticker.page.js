@@ -48,7 +48,7 @@ class Stickers {
     );
   }
   get export_done() {
-    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
+    return $('//android.view.ViewGroup[@content-desc="Done"]');
   }
   get album() {
     return $(

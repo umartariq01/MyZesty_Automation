@@ -215,19 +215,22 @@ class Audio {
     const timeout = 2 * 60 * 1000; // 2 minutes in milliseconds
     let isVisible = false;
     try {
-      await browser.waitUntil(async () => {
-        return await $(primarySelector).isDisplayed();
-      }, {
-        timeout: timeout,
-        timeoutMsg: `Element ${primarySelector} not visible after 2 minutes.`,
-        interval: 500
-      });
+      await browser.waitUntil(
+        async () => {
+          return await $(primarySelector).isDisplayed();
+        },
+        {
+          timeout: timeout,
+          timeoutMsg: `Element ${primarySelector} not visible after 2 minutes.`,
+          interval: 500,
+        }
+      );
       isVisible = true;
     } catch (e) {
       isVisible = false;
     }
     if (isVisible) {
-      console.log('Audio Denoised uccessfully.');
+      console.log("Audio Denoised uccessfully.");
     } else {
       await $(fallbackSelector).click();
       console.log("Audio not denoised in 2minutes!");

@@ -27,7 +27,9 @@ describe("Effect Feature Test Suite", () => {
       '//android.widget.ImageView[@resource-id="com.myzesty:id/add_video"]'
     );
     await Effects.Apply_Effect();
-    await browser.pause(2000);
+    await Common_function.waitForElementToBeVisible(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/image"])[3]'
+    );
     await Effects.Select_Effect_1();
     await browser.pause(1000);
     await Effects.Apply_Changes();
@@ -38,7 +40,7 @@ describe("Effect Feature Test Suite", () => {
       2
     );
     await Effects.Apply_More_Effects();
-    await browser.pause(700);
+    await browser.pause(1000);
     await Effects.Toolbar_Back();
     await browser.pause(700);
     await Effects.Click_Close_Project();
@@ -52,7 +54,6 @@ describe("Effect Feature Test Suite", () => {
     await Effects.Click_Img_Tab();
     await Effects.Select_Media_1();
     await Effects.Click_Done_Btn();
-    // await browser.pause(2000);
     await Common_function.waitForElementToBeVisible(
       '//android.widget.ImageView[@resource-id="com.myzesty:id/add_video"]'
     );
@@ -60,6 +61,9 @@ describe("Effect Feature Test Suite", () => {
 
   it("TC-FZ-002: Add Effect on Single  Media , remove effect then save in Draft", async () => {
     await Effects.Apply_Effect();
+    await Common_function.waitForElementToBeVisible(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/image"])[3]'
+    );
     await Effects.Select_Effect_1();
     await Effects.Apply_Changes();
     await Effects.Toolbar_Back();

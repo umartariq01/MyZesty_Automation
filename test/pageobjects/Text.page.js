@@ -45,7 +45,7 @@ class Text {
     );
   }
   get export_done() {
-    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
+    return $('//android.view.ViewGroup[@content-desc="Done"]');
   }
   get album() {
     return $(
@@ -68,7 +68,7 @@ class Text {
   }
   get text_area() {
     return $(
-      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
     );
   }
   get apply_changes() {
@@ -79,34 +79,37 @@ class Text {
       '(//android.widget.ImageView[@resource-id="com.myzesty:id/image"])[3]'
     );
   }
-  get color_tab() {
-    return $('//android.widget.TextView[@text="Color"]');
+  get font_color() {
+    return $(
+      '(//android.widget.ImageView[@resource-id="com.myzesty:id/font_style_image"])[4]'
+    );
   }
   get style_tab() {
     return $('//android.widget.TextView[@text="Style"]');
   }
   get bold() {
-    return $('//android.widget.ImageView[@resource-id="com.myzesty:id/bold"]');
+    return $(
+      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/bold_button"]/android.widget.ImageView'
+    );
   }
   get italic() {
     return $(
-      '//android.widget.ImageView[@resource-id="com.myzesty:id/italic"]'
+      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/italic_button"]/android.widget.ImageView'
     );
   }
   get stroke_tab() {
-    return $('//android.widget.TextView[@text="Stroke"]');
+    return $(
+      '//android.widget.TextView[@resource-id="com.myzesty:id/border_category"]'
+    );
   }
   get label_tab() {
-    return $('//android.widget.TextView[@text="Label"]');
+    return $(
+      '//android.widget.TextView[@resource-id="com.myzesty:id/label_category"]'
+    );
   }
   get label_1() {
     return $(
       '//android.widget.ImageView[@resource-id="com.myzesty:id/background"]'
-    );
-  }
-  get VE_label_tab() {
-    return $(
-      '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Label"]'
     );
   }
   get reset_changes() {
@@ -120,6 +123,11 @@ class Text {
     );
   }
   get edit_text() {
+    return $(
+      '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Edit"]'
+    );
+  }
+  get ve_edit_text() {
     return $('//android.widget.TextView[@text="Edit Text"]');
   }
 
@@ -185,8 +193,8 @@ class Text {
     await this.font_style.click();
     await browser.pause(1000);
   }
-  async Click_Color_Tab() {
-    await this.color_tab.click();
+  async Click_Font_Color() {
+    await this.font_color.click();
   }
   async Click_Style_Tab() {
     await this.style_tab.click();
@@ -206,14 +214,14 @@ class Text {
   async Select_Label() {
     await this.label_1.click();
   }
-  async Click_VE_Label_Tab() {
-    await this.VE_label_tab.click();
-  }
   async Reset_Changes_Btn() {
     await this.reset_changes.click();
   }
   async Click_Edit_Text() {
     await this.edit_text.click();
+  }
+  async VE_Click_Edit_Text() {
+    await this.ve_edit_text.click();
   }
 }
 

@@ -5,6 +5,7 @@ import Common_function from "../pageobjects/commonfun.page.js";
 import { $, browser, expect } from "@wdio/globals";
 import commonfunPage from "../pageobjects/commonfun.page.js";
 import SoftAssert from "../pageobjects/SoftAssert.page.js";
+import Logger from "../pageobjects/Logs.page.js";
 
 describe("Wizard Audio Feature Test Suite", () => {
   before(async () => {
@@ -18,6 +19,7 @@ describe("Wizard Audio Feature Test Suite", () => {
   after(async () => {
     console.log("===== Wizard Audio Feature Test Suite finished =====");
     await SoftAssert.assertAll();
+    await Logger.flush();
   });
 
   it("Verify that tapping the Audio icon opens the audio pop-up menu with Add Music, Record, and Original Audio toggle options.", async () => {
@@ -48,9 +50,9 @@ describe("Wizard Audio Feature Test Suite", () => {
     async function Check_Record() {
       const isRecordVisible = await WizardAudio.record.isEnabled();
       if (isRecordVisible) {
-        console.log("Record option is visible.");
+        console.log("[COLLECT] Record option is visible.");
       } else {
-        console.log("Record option is not visible.");
+        console.log("[COLLECT] Record option is not visible.");
       }
     }
     await Check_Record();
@@ -59,10 +61,10 @@ describe("Wizard Audio Feature Test Suite", () => {
       const isToggleVisible = await WizardAudio.audio_toggle.isEnabled();
       const checked = await WizardAudio.audio_toggle.getAttribute("checked");
       if (checked === "true" && isToggleVisible) {
-        console.log("Audio toggle is at default Position.(ON)");
-        console.log("Audio toggle is visible.");
+        console.log("[COLLECT] Audio toggle is at default Position.(ON)");
+        console.log("[COLLECT] Audio toggle is visible.");
       } else {
-        console.log("Audio toggle is not at default Position.(OFF)");
+        console.log("[COLLECT] Audio toggle is not at default Position.(OFF)");
       }
     }
     await Check_Audio_Toggle();

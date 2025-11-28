@@ -2,7 +2,7 @@ import Text from "../pageobjects/Text.page.js";
 import Slider from "../pageobjects/Slider.page.js";
 import Subscription from "../pageobjects/BuyPremium.page.js";
 import Common_function from "../pageobjects/commonfun.page.js";
-import { browser, expect } from "@wdio/globals";
+import { browser, driver, expect } from "@wdio/globals";
 import { text } from "stream/consumers";
 
 describe("Text Feature Test Suite", () => {
@@ -29,26 +29,24 @@ describe("Text Feature Test Suite", () => {
     await Text.Click_Add_Text();
     await Text.VE_Add_Text();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.EditText[@resource-id="com.myzesty:id/edit_text_area"]'
+      '//android.widget.EditText[@resource-id="com.myzesty:id/text_area"]'
     );
     await Text.Enter_Text();
-    await Text.Click_Apply_Changes();
-    await browser.pause(1500);
   });
 
   it("Verify that font styles can be applied correctly to the text.", async () => {
+    await driver.hideKeyboard();
     await Text.Apply_Font_Style();
   });
 
   it("Verify that text color changes are applied properly.", async () => {
-    await Text.Click_Color_Tab();
-    await Slider.Slider(36, 989, 1823, 1916, 0.6); // Color Slider
-    await Slider.Slider(196, 955, 1916, 2026, 0.8); // Opacity Slider
+    await Text.Click_Style_Tab();
+    await Text.Click_Font_Color();
     await browser.pause(700);
   });
 
   it("Verify that bold and italic styles can be applied to the text.", async () => {
-    await Text.Click_Style_Tab();
+    // await Text.Click_Style_Tab();
     await Text.Click_Bold();
     await Text.Click_Italic();
     await browser.pause(700);
@@ -56,28 +54,39 @@ describe("Text Feature Test Suite", () => {
 
   it("Verify that stroke can be applied to the text and displays correctly.", async () => {
     await Text.Click_Stroke_Tab();
-    await Slider.Slider(133, 955, 1823, 1933, 0.5);
-    await Slider.Slider(36, 989, 2019, 2112, 0.4);
+    await Common_function.clickElementByXPath(
+      // Select a Stroke Color
+      '(//android.view.View[@resource-id="com.myzesty:id/color_fill_view"])[4]'
+    );
+    await Slider.Slider(133, 955, 2150, 2260, 0.6);
     await browser.pause(700);
   });
 
   it("Verify that the label (or tag) appears properly on the text.", async () => {
     await Text.Click_Label_Tab();
     await Text.Select_Label();
-    await Slider.Slider(36, 989, 1988, 2081, 0.4);
+    await Slider.scrollScreen(527, 2200, 527, 1650);
+    //Opacity Slider
+    await Slider.Slider(188, 963, 2094, 2204, 0.8);
+    // Radius Slider
+    await Slider.Slider(167, 963, 2204, 2314, 0.4);
     await Text.Click_Apply_Changes();
     await browser.pause(500);
   });
 
   it("Verify that the Reset button works correctly and reverts all text changes.", async () => {
     await Slider.scrollUntilElementIsVisible(
-      '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Label"]',
+      '//android.widget.TextView[@resource-id="com.myzesty:id/text" and @text="Edit"]',
       918,
       2315,
       170,
       2315
     );
-    await Text.Click_VE_Label_Tab();
+    await Text.Click_Edit_Text();
+    await Common_function.waitForElementToBeVisible(
+      '//android.widget.GridView[@resource-id="com.myzesty:id/recycler_view"]/android.widget.FrameLayout[2]/android.widget.FrameLayout'
+    );
+    await Text.Click_Style_Tab();
     await Text.Reset_Changes_Btn();
     await Text.Click_Apply_Changes();
     await browser.pause(500);
@@ -94,8 +103,11 @@ describe("Text Feature Test Suite", () => {
     await Common_function.waitForElementToBeVisible(
       '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
     );
-    await Text.Click_Edit_Text();
-    await Slider.tapScreen(435, 1762);
+    await Text.VE_Click_Edit_Text();
+    await Common_function.addPixelsToElementXAndClick(
+      '//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"]/android.view.View',
+      50
+    );
     await Slider.Extender(
       driver,
       '//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"]/android.view.View[3]',
@@ -112,15 +124,15 @@ describe("Text Feature Test Suite", () => {
     await Common_function.waitForElementToBeVisible(
       '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
     );
-    await Slider.play_pause(534, 1412);
-    await browser.pause(4000);
-    await Slider.play_pause(534, 1412);
+    await Slider.play_pause_xpath(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
+    );
   });
 
   it("Verify that the text and its applied styles are retained correctly in the exported output.", async () => {
     await Text.Export_Media();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]'
+      '//android.view.ViewGroup[@content-desc="Done"]'
     );
     await Text.Export_Done_Btn();
   });

@@ -43,7 +43,7 @@ class Effects {
     );
   }
   get export_done() {
-    return $('//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]');
+    return $('//android.view.ViewGroup[@content-desc="Done"]');
   }
 
   get add_effect() {
@@ -213,6 +213,7 @@ class Effects {
       const effect = await $(fullXpath);
 
       if (!(await effect.isExisting())) {
+        await Common_function.waitForElementToBeVisible(effect);
         console.log(`❌ No effect found at index ${index}.`);
         break;
       }
@@ -241,7 +242,7 @@ class Effects {
         await addBtn.waitForDisplayed({ timeout: 5000 });
         await addBtn.click();
         console.log("➕ Clicked Add");
-        await browser.pause(1000);
+        await browser.pause(800);
       }
 
       index++;

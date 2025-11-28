@@ -72,7 +72,7 @@ class Slider {
     console.log(`Slider moved to ${desiredPercentage * 100}% position.`);
   }
 
-  async Drag_Drop(driver, dragX, dragY, dropX, dropY) {
+  async Drag_Drop(dragX, dragY, dropX, dropY) {
     try {
       await driver.performActions([
         {
@@ -139,21 +139,57 @@ class Slider {
     }
   }
 
-  // Vertical screen sliding function
-  // async scrollScreen(startX, startY, endX, endY, duration = 1000) {
-  //         await browser.performActions([{
-  //             type: 'pointer',
-  //             id: 'finger1',
-  //             parameters: { pointerType: 'touch' },
-  //             actions: [
-  //                 { type: 'pointerMove', duration: 0, x: startX, y: startY }, // Move to the start position
-  //                 { type: 'pointerDown', button: 0 }, // Press down
-  //                 { type: 'pointerMove', duration: duration, x: endX, y: endY }, // Move to the end position over the specified duration
-  //                 { type: 'pointerUp', button: 0 } // Release
-  //             ]
-  //         }]);
-  //         await browser.releaseActions();
-  //     }
+  async Drag_Drop_Xpath_with_Distance(
+    xpath,
+    dropX,
+    dropY,
+    wait = 5000,
+    pressMs = 120,
+    moveMs = 600,
+    offsetX = 0,
+    offsetY = 0
+  ) {
+    try {
+      const el = await $(xpath);
+      await el.waitForDisplayed({ timeout: wait });
+  
+      // get element rect and compute start point (center + optional offsets)
+      const { x, y } = await el.getLocation();
+      const { width, height } = await el.getSize();
+      const I = Math.round;
+      const startX = I(x + width / 2 + offsetX);
+      const startY = I(y + height / 2 + offsetY);
+  
+      // dropX / dropY are distances relative to start point
+      const endX = I(startX + dropX);
+      const endY = I(startY + dropY);
+  
+      await browser.performActions([
+        {
+          type: "pointer",
+          id: "finger1",
+          parameters: { pointerType: "touch" },
+          actions: [
+            { type: "pointerMove", duration: 0, x: startX, y: startY },
+            { type: "pointerDown", button: 0 },
+            { type: "pause", duration: pressMs },
+            { type: "pointerMove", duration: moveMs, x: endX, y: endY },
+            { type: "pointerUp", button: 0 },
+          ],
+        },
+      ]);
+  
+      await browser.releaseActions();
+      console.log(
+        `Drag and drop completed from (${startX}, ${startY}) to (${endX}, ${endY}) using offsets (dx=${dropX}, dy=${dropY}).`
+      );
+      return { startX, startY, dropX, dropY, endX, endY };
+    } catch (error) {
+      console.error("Error during drag and drop:", error);
+      throw error;
+    }
+  }
+  
 
   async scrollScreen(
     startX,
@@ -1150,6 +1186,94 @@ class Slider {
     ]);
 
     console.log(`Slider moved to target position.`);
+  }
+
+  async scrollContainerUntilFound({
+    containerXpath,
+    targetXpath,
+    direction = "RTL",
+    swipeDuration = 800,
+    maxSwipes = 12,
+    pad = 50,
+    settleMs = 300,
+  } = {}) {
+    if (!containerXpath) throw new Error("containerXpath is required.");
+    if (!targetXpath) throw new Error("targetXpath is required.");
+
+    const container = await $(containerXpath);
+    await container.waitForDisplayed({ timeout: 5000 });
+
+    const loc = await container.getLocation(); // {x, y}
+    const size = await container.getSize(); // {width, height}
+
+    const xLeft = Math.round(loc.x + pad);
+    const xRight = Math.round(loc.x + size.width - pad);
+    const yTop = Math.round(loc.y + pad);
+    const yBottom = Math.round(loc.y + size.height - pad);
+    const xMid = Math.round(loc.x + size.width / 2);
+    const yMid = Math.round(loc.y + size.height / 2);
+
+    const d = String(direction).toLowerCase();
+    const isRTL = d === "rtl" || d === "right-to-left";
+    const isLTR = d === "ltr" || d === "left-to-right";
+    const isUP = d === "up" || d === "bottom-to-top";
+    const isDOWN = d === "down" || d === "top-to-bottom";
+
+    if (!isRTL && !isLTR && !isUP && !isDOWN) {
+      throw new Error(
+        `Unsupported direction: ${direction}. Use LTR, RTL, UP, or DOWN.`
+      );
+    }
+
+    async function swipe(x1, y1, x2, y2, duration = 800) {
+      await browser.performActions([
+        {
+          type: "pointer",
+          id: "finger1",
+          parameters: { pointerType: "touch" },
+          actions: [
+            { type: "pointerMove", duration: 0, x: x1, y: y1 },
+            { type: "pointerDown", button: 0 },
+            { type: "pointerMove", duration, x: x2, y: y2 },
+            { type: "pointerUp", button: 0 },
+          ],
+        },
+      ]);
+      await browser.releaseActions();
+    }
+
+    // helper to check if target is visible
+    async function isTargetVisible() {
+      try {
+        const el = await $(targetXpath);
+        return (await el.isExisting()) && (await el.isDisplayed());
+      } catch (_) {
+        return false;
+      }
+    }
+
+    for (let i = 0; i <= maxSwipes; i++) {
+      if (await isTargetVisible()) {
+        return await $(targetXpath);
+      }
+
+      // perform one swipe in direction
+      if (isRTL) {
+        await swipe(xRight, yMid, xLeft, yMid, swipeDuration);
+      } else if (isLTR) {
+        await swipe(xLeft, yMid, xRight, yMid, swipeDuration);
+      } else if (isUP) {
+        await swipe(xMid, yBottom, xMid, yTop, swipeDuration);
+      } else if (isDOWN) {
+        await swipe(xMid, yTop, xMid, yBottom, swipeDuration);
+      }
+
+      await browser.pause(settleMs);
+    }
+
+    throw new Error(
+      `Target not found after ${maxSwipes} swipes.\nTarget: ${targetXpath}`
+    );
   }
 }
 

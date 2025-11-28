@@ -206,7 +206,7 @@ describe("Edit Feature Test Suite", () => {
     await Edit.Toolbar_Back();
     await Edit.Export_Media();
     await Common_function.waitForElementToBeVisible(
-      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]'
+      '//android.view.ViewGroup[@content-desc="Done"]'
     );
     await Edit.Export_Done_Btn();
   });
@@ -225,6 +225,7 @@ describe("Edit Feature Test Suite", () => {
     );
     await Edit.Click_Edit_Tab();
     await Edit.Trim_Media();
+    await browser.pause(1000);
     await Slider.Drag_Drop(77, 1806, 214, 1806);
     await browser.pause(500);
   });
@@ -257,8 +258,9 @@ describe("Edit Feature Test Suite", () => {
     await Edit.Click_Video_Tab();
     await Edit.Select_Media_1(3);
     await Edit.Click_Done_Btn();
-    await Common_function.waitForElementToBeVisible(
-      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
+    await Common_function.waitForElementToBeVisibleCustom(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]',
+      30000
     );
     await Edit.Click_Edit_Tab();
     // Define scroll positions for each split (add more if needed)
@@ -377,7 +379,7 @@ describe("Edit Feature Test Suite", () => {
     await Edit.Export_Media();
     await browser.pause(20000);
     await Common_function.waitForElementToDisappearCustom(
-      '//android.widget.Button[@resource-id="com.myzesty:id/btn_done"]',
+      '//android.view.ViewGroup[@content-desc="Done"]',
       60000
     );
     await Edit.Export_Done_Btn();

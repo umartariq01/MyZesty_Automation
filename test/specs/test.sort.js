@@ -1,5 +1,5 @@
 import Sort from "../pageobjects/Sort.page.js";
-import Slider from '../pageobjects/Slider.page.js'
+import Slider from "../pageobjects/Slider.page.js";
 import Subscription from "../pageobjects/BuyPremium.page.js";
 import Common_function from "../pageobjects/commonfun.page.js";
 import { browser } from "@wdio/globals";
@@ -53,6 +53,13 @@ describe("Sort Feature Test Suite", () => {
   });
 
   it("Verify that the media playback or preview follows the new inline sorting order.", async () => {
+    await Slider.scrollContainer_Xpath({
+      containerXpath:
+        '//android.widget.HorizontalScrollView[@resource-id="com.myzesty:id/videoTrackView"]/android.view.ViewGroup/android.view.View[2]',
+      direction: "LTR",
+      swipeDuration: 800,
+      repeats: 1,
+    });
     await Slider.play_pause(538, 1412);
     await browser.pause(4000);
     await Slider.play_pause(538, 1412);
@@ -62,10 +69,9 @@ describe("Sort Feature Test Suite", () => {
     await Sort.Click_Close_Project();
     await browser.pause(1000);
     await Sort.Click_Open_Draft();
-    await browser.pause(4000);
-    // await Slider.play_pause(538, 1412);
-    // await browser.pause(3000);
-    // await Slider.play_pause(538, 1412);
+    await Common_function.waitForElementToBeVisible(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
+    );
   });
 
   it("Verify Undo Redo functionlity respective to Sorting", async () => {

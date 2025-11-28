@@ -30,7 +30,7 @@
     "canvas": "wdio run ./wdio.conf.js --spec test.canvas.js",
     
     "text": "wdio run ./wdio.conf.js --spec test.text.js",
-    "text:monocart": "wdio run ./wdio.conf.js --spec test.text.js && node generate-monocart.js",
+    
     "edit": "wdio run ./wdio.conf.js --spec test.edit.js",
     "audio": "wdio run ./wdio.conf.js --spec test.audio.js",
     "keyframe": "wdio run ./wdio.conf.js --spec test.keyframes.js",
@@ -46,7 +46,11 @@
     "wizardbg" : "wdio run ./wdio.conf.js --spec test.wizardbg.js",
     "pebasic": "wdio run ./wdio.conf.js --spec test.photoeditorbasic.js",
     "pecustom": "wdio run ./wdio.conf.js --spec test.pe_custom_preset_neon.js",
-    "petune": "wdio run ./wdio.conf.js --spec test.pe_tune_vintage_fisheye.js"
+    "petune": "wdio run ./wdio.conf.js --spec test.pe_tune_vintage_fisheye.js",
+    "petext": "wdio run ./wdio.conf.js --spec test.pe_text.js",
+    "pesticker": "wdio run ./wdio.conf.js --spec test.pe_sticker.js",
+    "pedraw": "wdio run ./wdio.conf.js --spec test.pe_draw.js",
+    "pebokeh": "wdio run ./wdio.conf.js --spec test.pe_bokeh.js"
   },
   "keywords": [],
   "author": "",

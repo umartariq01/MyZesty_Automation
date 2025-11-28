@@ -824,6 +824,37 @@ class Common_function {
       `📊 Apply_All_Items finished. Processed: ${processed}, Scrolls: ${scrolls}`
     );
   }
+
+  async addPixelsToElementXAndClick(xpath, deltaX) {
+    const el = await $(xpath);
+    await el.waitForDisplayed({ timeout: 10000 });
+
+    const loc = await el.getLocation(); // { x, y } top-left
+    const size = await el.getSize(); // { width, height }
+
+    const centerX = loc.x + Math.floor(size.width / 2);
+    const centerY = loc.y + Math.floor(size.height / 2);
+
+    const newX = centerX + deltaX;
+    const newY = centerY;
+
+    // ✅ Reliable W3C tap
+    await driver.performActions([
+      {
+        type: "pointer",
+        id: "finger1",
+        parameters: { pointerType: "touch" },
+        actions: [
+          { type: "pointerMove", duration: 0, x: newX, y: newY },
+          { type: "pointerDown", button: 0 },
+          { type: "pointerUp", button: 0 },
+        ],
+      },
+    ]);
+    await driver.releaseActions();
+
+    return { x: newX, y: newY };
+  }
 }
 
 export default new Common_function();

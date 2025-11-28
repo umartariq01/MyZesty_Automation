@@ -23,8 +23,9 @@ describe("Audio Feature Test Suite", () => {
     await Audio.Click_Video_Tab();
     await Audio.Select_Media_1(2);
     await Audio.Click_Done_Btn();
-    await Common_function.waitForElementToBeVisible(
-      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]'
+    await Common_function.waitForElementToBeVisibleCustom(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/play"]',
+      30000
     );
     await Audio.Click_Mute_Unmute();
     await Audio.Click_Add_Audio();
@@ -57,7 +58,7 @@ describe("Audio Feature Test Suite", () => {
   it("Verify that the user can expand or reduce the seek bar to adjust audio duration on the video timeline.", async () => {
     await Slider.dragSliderHandle(
       '(//android.view.ViewGroup[@resource-id="com.myzesty:id/range_slider"])[3]/android.view.View[2]',
-      200
+      600
     );
     await browser.pause(600);
     await Slider.play_pause(534, 1412);

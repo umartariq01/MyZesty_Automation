@@ -116,9 +116,10 @@ class Chroma {
       '(//android.widget.ImageView[@resource-id="com.myzesty:id/iv_background"])[1]'
     );
   }
-  get color_picker()
-  {
-    return $('//android.widget.ImageView[@resource-id="com.myzesty:id/iv_canvas_background"]');
+  get color_picker() {
+    return $(
+      '//android.widget.ImageView[@resource-id="com.myzesty:id/iv_canvas_background"]'
+    );
   }
 
   async Open_VideoEditor() {
@@ -211,8 +212,7 @@ class Chroma {
   async Select_Gallery_BG() {
     await this.gallery_bg.click();
   }
-  async Select_Color_Picker()
-  {
+  async Select_Color_Picker() {
     await this.color_picker.click();
   }
 }

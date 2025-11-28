@@ -24,7 +24,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Sticker suite", async () => {
     await import("../specs/test.sticker.js");
   });
 
@@ -33,7 +33,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Text suite", async () => {
     await import("../specs/test.text.js");
   });
 
@@ -42,7 +42,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Sort suite", async () => {
     await import("../specs/test.sort.js");
   });
 
@@ -51,7 +51,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Tune suite", async () => {
     await import("../specs/test.tune.js");
   });
 
@@ -60,7 +60,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Keyframes suite", async () => {
     await import("../specs/test.keyframes.js");
   });
 
@@ -69,7 +69,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Freeze suite", async () => {
     await import("../specs/test.freeze.js");
   });
 
@@ -78,7 +78,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Edit suite", async () => {
     await import("../specs/test.edit.js");
   });
 
@@ -87,7 +87,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Dehazer suite", async () => {
     await import("../specs/test.dehazer.js");
   });
 
@@ -96,7 +96,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Overlay suite", async () => {
     await import("../specs/test.overlay.js");
   });
 
@@ -105,7 +105,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Canvas suite", async () => {
     await import("../specs/test.canvas.js");
   });
 
@@ -114,7 +114,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Audio suite", async () => {
     await import("../specs/test.audio.js");
   });
 
@@ -123,7 +123,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Chroma suite", async () => {
     await import("../specs/test.chroma.js");
   });
 
@@ -132,7 +132,7 @@ describe("Combined Feature Suite", () => {
     await browser.pause(2000); // 2 seconds
   });
 
-  it("Run Preset suite", async () => {
+  it("Run Export suite", async () => {
     await import("../specs/test.export.js");
   });
 

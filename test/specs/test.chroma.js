@@ -50,7 +50,7 @@ describe("Chroma Feature Test Suite", () => {
     );
     // await browser.pause(1000);
     await Chroma.Select_BG_Img();
-    await Slider.Slider(driver, 220, 931, 2074, 2184, 0.7);
+    await Slider.Slider(220, 931, 2074, 2184, 0.7);
     await Chroma.Click_Apply_Changes();
   });
 
@@ -77,7 +77,7 @@ describe("Chroma Feature Test Suite", () => {
       '(//android.view.View[@resource-id="com.myzesty:id/progress"])'
     );
     await Chroma.Select_BG_Img();
-    await Slider.Slider(driver, 220, 931, 2074, 2184, 0.6);
+    await Slider.Slider(220, 931, 2074, 2184, 0.6);
     await Chroma.Click_Apply_Changes();
     await Slider.play_pause(534, 1412);
     await browser.pause(3000);
@@ -113,7 +113,7 @@ describe("Chroma Feature Test Suite", () => {
     await Chroma.Click_Automation_Album();
     await Chroma.Select_Media_2();
     await browser.pause(1000);
-    await Slider.Slider(driver, 220, 931, 2074, 2184, 0.7);
+    await Slider.Slider(220, 931, 2074, 2184, 0.7);
     await Chroma.Click_Apply_Changes();
   });
 
@@ -128,13 +128,13 @@ describe("Chroma Feature Test Suite", () => {
     await Chroma.Click_Chroma_Tab();
     await Chroma.Click_Reset_Chroma();
     await Chroma.Select_Color_Picker();
-    await Slider.Drag_Drop(driver, 538, 800, 860, 461);
+    await Slider.Drag_Drop(538, 800, 860, 461);
     // await Chroma.Select_Color_Key();
     await Common_function.waitForElementToDisappear(
       '(//android.view.View[@resource-id="com.myzesty:id/progress"])'
     );
     await Chroma.Select_BG_Img();
-    await Slider.Slider(driver, 220, 931, 2074, 2184, 0.1);
+    await Slider.Slider(220, 931, 2074, 2184, 0.1);
     await Chroma.Click_Apply_Changes();
   });
 
@@ -153,7 +153,7 @@ describe("Chroma Feature Test Suite", () => {
     await Chroma.Export_Media();
     await browser.pause(15000);
     await Common_function.waitForElementToDisappearCustom(
-      '//android.widget.FrameLayout[@resource-id="com.myzesty:id/cancel_button"]',
+      '//android.view.ViewGroup[@content-desc="Done"]',
       30000
     );
     await Chroma.Export_Done_Btn();

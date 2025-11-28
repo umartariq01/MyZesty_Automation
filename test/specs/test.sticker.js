@@ -33,8 +33,8 @@ describe("Sticker Feature Test Suite", () => {
     await Stickers.selectStickerIfNotDownloaded(
       '(//android.widget.ImageView[@resource-id="com.myzesty:id/animated_image"])[2]'
     );
-    // await browser.pause(2000);
-    // await Stickers.Select_Sticker1();
+    await browser.pause(2000);
+    await Stickers.Select_Sticker1();
     await Stickers.Apply_Changes();
   });
 
